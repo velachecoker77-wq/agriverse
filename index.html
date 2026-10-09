@@ -3,50 +3,128 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>AGRIVERSE - Sierra Leone</title>
+<title>AGRIVERSE SL - Bhashini Edition</title>
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:'Outfit',sans-serif}
-body{background:#fdf8ee;color:#1a3c1a}
-.header{background:linear-gradient(135deg,#00205B 0%,#0b7a0b 100%);color:#fff;padding:18px 20px;position:sticky;top:0}
-.logo{font-weight:800;font-size:21px}.logo span{color:#ffd700}
-.live{background:#ffd700;color:#00205B;padding:4px 12px;border-radius:20px;font-weight:800;font-size:12px}
-.hero{padding:24px 18px;text-align:center}
-.badge{display:inline-block;background:#00205B;color:#fff;padding:4px 10px;border-radius:20px;font-size:12px;margin:3px}
-.card-form{background:#fff;border-radius:18px;padding:18px;margin:12px 16px}
-.input{width:100%;padding:13px;border-radius:12px;border:1.5px solid #d9d0b0;margin:8px 0}
-.btn{width:100%;padding:14px;border:none;border-radius:12px;font-weight:700}
+body{background:#fdf8ee}
+.header{background:linear-gradient(135deg,#00205B 0%,#0b7a0b 100%);color:#fff;padding:14px 16px;position:sticky;top:0;z-index:10}
+.top{display:flex;justify-content:space-between;align-items:center}
+.logo{font-weight:800;font-size:20px}.logo span{color:#ffd700}
+.lang{padding:6px 10px;border-radius:10px;border:none;font-weight:700;background:#ffd700;color:#00205B}
+.hero{padding:18px;text-align:center}
+.hero h1{font-size:26px;color:#00205B}
+.card{background:#fff;border-radius:18px;padding:16px;margin:12px;box-shadow:0 8px 20px rgba(0,0,0,.08)}
+.input{width:100%;padding:13px;border-radius:12px;border:1.5px solid #d9d0b0;margin:7px 0}
+.btn{width:100%;padding:14px;border:none;border-radius:12px;font-weight:800;cursor:pointer}
 .btn-save{background:linear-gradient(135deg,#00205B,#0b7a0b);color:#fff}
-.btn-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:12px 16px}
+.btn-mic{background:#fff;border:1.5px solid #0b7a0b;color:#0b7a0b;margin-bottom:8px}
+.btn-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:12px}
 .btn-excel{background:#fff;border:1.5px solid #00205B}.btn-wa{background:#25D366;color:#fff}
-.bag-card{background:#fff;border-radius:16px;overflow:hidden;box-shadow:0 6px 20px rgba(0,0,0,.07);margin-bottom:14px}
-.bag-img{height:170px;object-fit:cover;width:100%}
-.bag-id{background:#00205B;color:#ffd700;padding:3px 8px;border-radius:8px;font-size:11px}
+.bag{ background:#fff;border-radius:14px;padding:12px;margin-bottom:10px;box-shadow:0 4px 12px rgba(0,0,0,.06)}
+.badge{background:#00205B;color:#ffd700;padding:3px 8px;border-radius:8px;font-size:11px}
 </style>
 </head>
 <body>
-<div class="header"><div style="display:flex;justify-content:space-between"><div class="logo">🌿 AGRIVERSE <span>SIERRA LEONE</span></div><div class="live">🇸🇱 LIVE</div></div></div>
-<div class="hero"><h1>Track Your Harvest,<br>Earn From Photos</h1><p>Sierra Leone National Farmers Bag System</p><div><span class="badge">Bo</span><span class="badge">Kenema</span><span class="badge">Makeni</span><span class="badge">Moyamba</span><span class="badge">Freetown</span></div></div>
-<div class="card-form">
-<input id="crop" class="input" placeholder="Crop">
-<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px"><input id="qty" class="input" placeholder="Qty kg" type="number"><input id="price" class="input" placeholder="Price Le" type="number"></div>
-<input id="village" class="input" placeholder="District / Village">
+<div class="header">
+<div class="top">
+<div class="logo">🌿 AGRIVERSE <span>SL</span></div>
+<select id="langSel" class="lang" onchange="changeLang()">
+<option value="en">English</option>
+<option value="kri" selected>Krio</option>
+<option value="men">Mɛnde</option>
+<option value="tem">Temne</option>
+<option value="lim">Limba</option>
+</select>
+</div>
+<div style="font-size:12px;margin-top:6px">🇸🇱 Bhashini Salone • If AI is built for people, it should speak their language</div>
+</div>
+
+<div class="hero">
+<h1 id="title">Track Yu Harvest, Make Money From Foto</h1>
+<p id="subtitle" style="color:#5a7a5a;margin-top:6px">Sierra Leone National Farmers Bag System — Now na yu language!</p>
+</div>
+
+<div class="card">
+<h3 id="addTitle">➕ Add Yu Bag</h3>
+<button class="btn btn-mic" onclick="startVoice()">🎙️ <span id="micText">Talk - Tok in Krio</span></button>
+<input id="crop" class="input" placeholder="Crop e.g. Cassava">
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px"><input id="qty" class="input" placeholder="How much kg?" type="number"><input id="price" class="input" placeholder="Price Le" type="number"></div>
+<input id="village" class="input" placeholder="District - Usai yu de?">
 <input id="photo" class="input" type="file" accept="image/*">
-<button class="btn btn-save" onclick="saveBag()">💾 Save Bag - National ID ✨</button>
-<p id="msg" style="text-align:center;color:#0b7a0b;font-weight:700"></p>
+<button class="btn btn-save" onclick="saveBag()"><span id="saveText">💾 Save Bag</span></button>
+<p id="msg" style="text-align:center;color:#0b7a0b;font-weight:700;margin-top:8px"></p>
 </div>
+
 <div class="btn-grid">
-<button class="btn btn-excel" onclick="exportCSV()">📊 Export Excel</button>
-<button class="btn btn-wa" onclick="sellWA()">💬 WhatsApp</button>
+<button class="btn btn-excel" onclick="exportCSV()">📊 Excel</button>
+<button class="btn btn-wa" onclick="sellWA()">💬 <span id="waText">WhatsApp 088026188</span></button>
 </div>
-<div style="padding:10px 16px 90px"><div>📦 My Bags (<span id="count">0</span>)</div><div id="bags"></div></div>
+
+<div style="padding:10px 16px 90px">
+<div style="font-weight:800">📦 <span id="bagTitle">My Bags</span> (<span id="count">0</span>)</div>
+<div id="bags"></div>
+</div>
+
+<div style="background:#00205B;color:#cfe8cf;text-align:center;padding:10px;font-size:11px">🇸🇱 AGRIVERSE SL • Bhashini Model • +232 88 026188</div>
+
 <script>
+const dict={
+ en:{title:"Track Your Harvest,<br>Earn From Photos",sub:"National Farmers Bag System + Data Monetization",add:"➕ Add New Bag",mic:"Talk - Speak to Add",crop:"Crop e.g. Cassava",qty:"Qty kg",price:"Price Le",village:"District / Village",save:"💾 Save Bag - National ID",bag:"My Bags",wa:"WhatsApp Us"},
+ kri:{title:"Track Yu Harvest,<br>Make Money From Foto",sub:"Salone National Farmers Bag System — Na yu language!",add:"➕ Add Yu Bag",mic:"Tok - Tɔk na Krio",crop:"Wet crop? e.g. Cassava",qty:"Omus kg?",price:"Price Le",village:"District - Usai yu de?",save:"💾 Save Bag - Put Am",bag:"Yu Bags dem",wa:"WhatsApp We 088026188"},
+ men:{title:"Bi Gbuaɛi, Bi Hweɛi Ndomɛi",sub:"Salone Farmers Bag System",add:"➕ Add Bag",mic:"Nya Nde - Tok Mende",crop:"Crop",qty:"Kg",price:"Price",village:"Town",save:"Save Bag",bag:"My Bags",wa:"WhatsApp"},
+ tem:{title:"Track Yu Ka-rɔs, Kɛm Mɔni",sub:"Salone Bag System",add:"➕ Add Bag",mic:"Dɛm Temne",crop:"Crop",qty:"Kg",price:"Price",village:"Place",save:"Save Bag",bag:"Bags",wa:"WhatsApp"},
+ lim:{title:"Track Harvest, Get Money",sub:"Salone System",add:"➕ Add Bag",mic:"Talk Limba",crop:"Crop",qty:"Kg",price:"Price",village:"Village",save:"Save Bag",bag:"Bags",wa:"WhatsApp"}
+};
+
+function changeLang(){
+ let l=document.getElementById('langSel').value;
+ let d=dict[l];
+ document.getElementById('title').innerHTML=d.title;
+ document.getElementById('subtitle').innerText=d.sub;
+ document.getElementById('addTitle').innerText=d.add;
+ document.getElementById('micText').innerText=d.mic;
+ document.getElementById('crop').placeholder=d.crop;
+ document.getElementById('qty').placeholder=d.qty;
+ document.getElementById('price').placeholder=d.price;
+ document.getElementById('village').placeholder=d.village;
+ document.getElementById('saveText').innerText=d.save;
+ document.getElementById('bagTitle').innerText=d.bag;
+ document.getElementById('waText').innerText=d.wa;
+}
+
 let bagsData=JSON.parse(localStorage.getItem('agriverse_sl')||'[]');
-function render(){document.getElementById('count').innerText=bagsData.length;const c=document.getElementById('bags');if(!bagsData.length){c.innerHTML='<p style="text-align:center;color:#999;padding:20px">No bags yet - be first in Sierra Leone!</p>';return}c.innerHTML=bagsData.map(b=>`<div class="bag-card"><img class="bag-img" src="${b.img||'https://images.unsplash.com/photo-1542838132-92c53300491e?w=400'}"><div style="padding:12px"><span class="bag-id">🇸🇱 ${b.id}</span><div style="font-weight:800">${b.crop}</div><div>📍 ${b.village} • ${b.qty}kg</div><div style="font-weight:800;color:#00205B">Le ${b.price}</div></div></div>`).reverse().join('');}
+function render(){document.getElementById('count').innerText=bagsData.length;const c=document.getElementById('bags');if(!bagsData.length){c.innerHTML='<p style="text-align:center;color:#999;padding:20px">No bags yet</p>';return}c.innerHTML=bagsData.map(b=>`<div class="bag"><span class="badge">🇸🇱 ${b.id}</span><div style="font-weight:800">${b.crop}</div><div style="font-size:13px;color:#666">📍 ${b.village} • ${b.qty}kg • ${new Date(b.date).toLocaleDateString()}</div><div style="font-weight:800;color:#00205B">Le ${b.price}</div></div>`).reverse().join('');}
 render();
-function saveBag(){const crop=document.getElementById('crop').value,qty=document.getElementById('qty').value,price=document.getElementById('price').value,village=document.getElementById('village').value;if(!crop||!qty)return alert('Add crop');const file=document.getElementById('photo').files[0];const id='SL-'+Date.now().toString().slice(-6);const reader=new FileReader();reader.onload=function(e){bagsData.push({id,crop,qty,price,village,date:new Date().toISOString(),img:e.target.result});localStorage.setItem('agriverse_sl',JSON.stringify(bagsData));render();document.getElementById('msg').innerText='✅ SL Bag '+id+' Saved!';};if(file)reader.readAsDataURL(file);else reader.onload({target:{result:''}});}
-function exportCSV(){let csv='ID,Crop,Qty,Price,Village,Country\n'+bagsData.map(b=>`${b.id},${b.crop},${b.qty},${b.price},${b.village},Sierra Leone`).join('\n');let blob=new Blob([csv],{type:'text/csv'});let a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='agriverse_SL.csv';a.click();}
-function sellWA(){let last=bagsData[bagsData.length-1];let text=`🇸🇱 AGRIVERSE SL: ${last.qty}kg ${last.crop} for Le ${last.price} in ${last.village}. ID ${last.id}`;window.open('https://wa.me/?text='+encodeURIComponent(text));}
+
+function saveBag(){const crop=document.getElementById('crop').value,qty=document.getElementById('qty').value,price=document.getElementById('price').value,village=document.getElementById('village').value;if(!crop||!qty)return alert('Add crop');const file=document.getElementById('photo').files[0];const id='SL-'+Date.now().toString().slice(-6);const reader=new FileReader();reader.onload=function(e){bagsData.push({id,crop,qty,price,village,date:new Date().toISOString(),img:e.target.result});localStorage.setItem('agriverse_sl',JSON.stringify(bagsData));render();document.getElementById('msg').innerText='✅ Bag '+id+' Saved! '+ (document.getElementById('langSel').value=='kri'?'Don don!':'');};if(file)reader.readAsDataURL(file);else reader.onload({target:{result:''}});}
+function exportCSV(){let csv='ID,Crop,Qty,Price,Village\n'+bagsData.map(b=>`${b.id},${b.crop},${b.qty},${b.price},${b.village}`).join('\n');let blob=new Blob([csv],{type:'text/csv'});let a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='agriverse_SL.csv';a.click();}
+function sellWA(){let last=bagsData[bagsData.length-1]||{qty:5,crop:'Cassava',price:100000,village:'Freetown',id:'SL-DEMO'};let text=`🇸🇱 AGRIVERSE SL: I have ${last.qty}kg ${last.crop} for Le ${last.price} in ${last.village}. ID ${last.id} https://velachecker77-wq.github.io/agriverse/`;window.open('https://wa.me/23288026188?text='+encodeURIComponent(text),'_blank');}
+
+// VOICE INPUT - BHASHINI STYLE
+function startVoice(){
+ if(!('webkitSpeechRecognition' in window || 'SpeechRecognition' in window)){alert('Voice not supported on this phone, type instead');return}
+ let Rec=window.SpeechRecognition||window.webkitSpeechRecognition;
+ let rec=new Rec();
+ rec.lang='en-SL';
+ document.getElementById('msg').innerText='🎙️ Listening... Tok now';
+ rec.onresult=function(e){
+   let t=e.results[0][0].transcript.toLowerCase();
+   document.getElementById('msg').innerText='Yu tok: '+t;
+   // simple parse: if say cassava, rice etc
+   if(t.includes('cassava')||t.includes('kasava'))document.getElementById('crop').value='Cassava';
+   if(t.includes('rice'))document.getElementById('crop').value='Rice';
+   if(t.includes('pepper'))document.getElementById('crop').value='Pepper';
+   // parse number
+   let nums=t.match(/\\d+/);
+   if(nums)document.getElementById('qty').value=nums[0];
+   // auto save voice
+   if(confirm('Yu say: '+t+'\\nSave am?')) saveBag();
+ }
+ rec.onerror=function(){document.getElementById('msg').innerText='Try again - Tok again';}
+ rec.start();
+}
+changeLang();
 </script>
 </body>
 </html>
