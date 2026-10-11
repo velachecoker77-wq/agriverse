@@ -5,7 +5,7 @@
 Starting point: Moyamba (Kaiyamba + Bagruwa) — Pilot 20 farms
 Building for 500M smallholder farmers globally
 
-Live App: https://YOURUSERNAME.github.io/agriverse/
+Live App:https://velachecker77-wq.github.io/agriverse/
 
 #### THE 4 LAYERS
 - WHY: Agriverse - One vision, every farm connected
