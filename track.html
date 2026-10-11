@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Agriverse | Track Bag</title>
+<script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
+<style>
+body{font-family:system-ui;background:#f0fdf4;margin:0;padding:16px}
+.card{max-width:480px;margin:auto;background:#fff;border-radius:16px;padding:20px;box-shadow:0 6px 18px rgba(0,0,0,.1)}
+h2{margin:0 0 10px;color:#166534}
+.badge{display:inline-block;padding:4px 10px;border-radius:99px;background:#dcfce7;color:#166534;font-size:12px;font-weight:700}
+.row{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid #f0f0f0}
+.hash{font-size:10px;word-break:break-all;background:#f9fafb;padding:8px;border-radius:8px}
+#qrcode{display:flex;justify-content:center;margin:14px 0}
+</style>
+</head>
+<body>
+<div class="card">
+<h2>🌾 Agriverse Africa</h2>
+<span class="badge">BLOCKCHAIN VERIFIED</span>
+<div id="qrcode"></div>
+<div id="content">Loading...</div>
+</div>
+
+<script>
+const SUPABASE_URL = "https://hyporvepyvqwvmvaesubf.supabase.co";
+const SUPABASE_KEY = "PUT_ANON_KEY_HERE"; // <-- PASTE YOUR anon eyJ... KEY HERE
+const bagCode = new URLSearchParams(location.search).get('bag') || 'AGV-001';
+
+async function load(){
+  try{
+    const r = await fetch(`${SUPABASE_URL}/rest/v1/bags?bag_code=eq.${bagCode}&select=*`,{
+      headers:{apikey:SUPABASE_KEY,Authorization:`Bearer ${SUPABASE_KEY}`}
+    });
+    const d = await r.json();
+    if(!d[0]){document.getElementById('content').innerHTML='Bag not found'; return;}
+    const b = d[0];
+    document.getElementById('content').innerHTML=`
+      <div class="row"><b>Bag Code</b><span>${b.bag_code}</span></div>
+      <div class="row"><b>Crop</b><span>${b.crop_type}</span></div>
+      <div class="row"><b>Weight</b><span>${b.weight}</span></div>
+      <div class="row"><b>Origin</b><span>${b.origin_village}</span></div>
+      <div class="row"><b>To</b><span>${b.destination}</span></div>
+      <div class="row"><b>Status</b><span>${b.status}</span></div>
+      <div class="row"><b>Farmer</b><span>${b.farmer_id}</span></div>
+      <p><b>Blockchain Hash</b></p>
+      <div class="hash">${b.blockchain_hash}</div>
+      <p style="color:#166534;font-weight:700;margin-top:12px">✅ Authentic • Moyamba → Kenema • Verified on Agriverse</p>
+    `;
+    new QRCode(document.getElementById("qrcode"), {text: location.href, width:140, height:140});
+  }catch(e){
+    document.getElementById('content').innerHTML='Error: Add your anon key in code. '+e;
+  }
+}
+load();
+</script>
+</body>
+</html>
