@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Agriverse - Green Gold Pro | Sierra Leone to World</title>
+<meta name="theme-color" content="#0f8d3a">
+<style>
+:root{--g:#0f8d3a;--g2:#16c95d;--bg:#f2f9ee;--card:#fff}
+*{box-sizing:border-box}body{margin:0;font-family:system-ui,Segoe UI,sans-serif;background:var(--bg);color:#1a1a1a}
+.top{background:linear-gradient(135deg,#062e14 0%,#0f8d3a 35%,#4ad67a 100%);color:#fff;padding:20px 16px 18px;border-radius:0 0 26px 26px;position:sticky;top:0;z-index:9}
+.brand{display:flex;align-items:center;gap:12px}
+.logo{width:52px;height:52px;background:#fff;border-radius:50%;display:grid;place-items:center;font-size:26px;box-shadow:0 4px 12px rgba(0,0,0,.25)}
+.b1{font-weight:900;font-size:22px;line-height:1}.b2{font-size:13px;opacity:.95;font-weight:600}
+.live{margin-left:auto;background:#ff1f1f;color:#fff;padding:7px 14px;border-radius:22px;font-weight:900;font-size:12px;animation:pulse 1.5s infinite}
+@keyframes pulse{0%{transform:scale(1)}50%{transform:scale(1.08)}100%{transform:scale(1)}}
+.vision{margin-top:10px;background:rgba(255,255,255,.15);backdrop-filter:blur(6px);padding:8px 12px;border-radius:12px;font-size:11px;line-height:1.4;border:1px solid rgba(255,255,255,.25)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin:14px}
+.btn{padding:12px 8px;border-radius:14px;background:var(--card);border:1px solid #d9e8d0;font-weight:700;font-size:11.5px;display:flex;flex-direction:column;align-items:center;gap:4px;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,.05)}
+.btn.green{background:var(--g);color:#fff;border:none}.btn.dark{background:#0c4a1f;color:#fff;border:none}
+.btn:active{transform:scale(.97)}
+.wrap{padding:0 12px 90px}
+.panel{background:var(--card);border-radius:18px;padding:16px;box-shadow:0 6px 18px rgba(0,0,0,.07);border:1px solid #e6eedc;margin:14px 0}
+.panel h3{margin:0 0 8px}
+input,select{width:100%;padding:14px;margin:7px 0;border-radius:12px;border:1.5px solid #c9ddbe;font-size:14px}
+.save{width:100%;padding:15px;border:none;border-radius:14px;background:linear-gradient(135deg,var(--g),var(--g2));color:#fff;font-weight:900;font-size:15px;margin-top:8px}
+.card{background:var(--card);border-radius:18px;overflow:hidden;border:1px solid #e2eedc;box-shadow:0 4px 14px rgba(0,0,0,.06)}
+.bagImg{width:100%;height:118px;object-fit:cover;background:#eee}
+.bagBody{padding:9px 10px}
+.tag{background:#e6f4e0;color:#1a7a2e;padding:3px 9px;border-radius:20px;font-size:10px;font-weight:800;position:absolute;top:8px;left:8px}
+.bagTitle{font-weight:800;font-size:13px}.bagPrice{color:var(--g);font-weight:900;font-size:15px;margin:2px 0}.bagMeta{font-size:11px;color:#666}
+.bottom{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid #e0e0e0;display:flex;justify-content:space-around;padding:8px 0;z-index:10}
+.bottom div{text-align:center;font-size:11px;color:#777}.bottom.on{color:var(--g);font-weight:800}
+.layers{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}
+.layer{font-size:10px;background:#f6fbf3;border:1px dashed #bcd6ad;padding:8px;border-radius:10px}
+</style></head><body>
+<div class="top">
+ <div class="brand">
+  <div class="logo">🌿</div>
+  <div><div class="b1">Agriverse<br>Green Gold Pro</div><div class="b2">Where Every Farm Lives Online</div></div>
+  <div class="live">● LIVE</div>
+ </div>
+ <div class="vision">
+  🌍 <b>SIERRA LEONE → AFRICA → WORLD</b><br>
+  WHY: Agriverse • HOW: Agristack (OS + 1 Bag 1 Dollar) • WHAT: CropCore (See crop, know crop) • WHO: Farm Doctor — WhatsApp Krio voice<br>
+  <b>Offline First • Works without internet • Krio | Mende | Temne | English | French</b>
+ </div>
+</div>
+
+<div class="wrap">
+<div class="grid2">
+ <div class="btn green">🎙️ Voice note (Krio)<span style="font-weight:400;font-size:9px">Tap to record</span></div>
+ <div class="btn">💲 Price display</div>
+ <div class="btn">ⓘ Product info</div>
+ <div class="btn">📍 Place / GPS</div>
+ <div class="btn green">💬 Contact / WhatsApp</div>
+ <div class="btn dark">🏪 Market</div>
+ <div class="btn" onclick="exportCSV()">⬇️ Export CSV</div>
+ <div class="btn" onclick="shareWA()">↗️ Share on WhatsApp</div>
+</div>
+
+<div class="panel">
+ <h3>Add Yu Bag — Green Gold</h3>
+ <div class="layers">
+  <div class="layer"><b>WHY</b> Agriverse Vision</div><div class="layer"><b>HOW</b> Agristack OS</div>
+  <div class="layer"><b>WHAT</b> CropCore AI</div><div class="layer"><b>WHO</b> Farm Doctor</div>
+ </div>
+ <button onclick="V()" style="width:100%;padding:11px;border:2px solid var(--g);border-radius:12px;background:#fff;font-weight:800;margin:10px 0">🎙️ Tok na Krio — Voice to Fill</button>
+ <select id="cr"><option>Choose Crop</option><option>Cassava</option><option>Corn</option><option>Rice</option><option>Cacao</option><option>Black Pepper</option><option>Coffee</option><option>Palm Oil</option></select>
+ <input id="qt" type="number" placeholder="Kg / Product Quantity - e.g. 50">
+ <input id="pr" type="number" placeholder="Price - Leones - e.g. 25">
+ <input id="vi" placeholder="Place / Village / District / Country">
+ <input id="ct" placeholder="Contact / WhatsApp - 076...">
+ <input id="pd" placeholder="Product info - e.g. Dry, Fresh, Organic">
+ <button class="save" onclick="S()">💾 Save Bag — Green Gold</button>
+ <p id="msg" style="text-align:center;font-weight:800;margin:8px 0 0"></p>
+</div>
+
+<div><b>Crop Bags • <span id="n">0</span> Listings</b><div style="font-size:12px;color:#666">📍 Sierra Leone • Africa • Worldwide — Offline First</div>
+<div id="bags" style="display:grid;grid-template-columns:1fr 1fr;gap:11px;margin-top:12px"></div></div>
+
+<div class="panel">
+ <h3>👨‍⚕️ Farm Doctor — Ask Anything</h3>
+ <div id="chatBox" style="background:#f5f9f2;border-radius:12px;padding:10px;height:120px;overflow:auto;font-size:12px"><div>👋 Kushe! Na Farm Doctor. Ask me: How to store cassava? Price for rice today? I go answer na Krio/English.</div></div>
+ <div style="display:flex;gap:6px;margin-top:8px"><input id="q" placeholder="Type question..." style="margin:0"><button onclick="ask()" style="background:var(--g);color:#fff;border:none;border-radius:12px;padding:0 18px;font-weight:800">Ask</button></div>
+</div>
+
+</div>
+
+<div class="bottom"><div class="on">🏠<br>Home</div><div>☰<br>Listings</div><div>💬<br>Chat</div><div>👤<br>Profile</div></div>
+
+<script>
+let img={
+ Cassava:"https://images.unsplash.com/photo-1608198093002-ad4e005484ec?w=500",
+ Corn:"https://images.unsplash.com/photo-1551754655-cd27e38d2076?w=500",
+ Rice:"https://images.unsplash.com/photo-1536304929831-ee1ca9d44906?w=500",
+ Cacao:"https://images.unsplash.com/photo-1610611424854-860c614dd765?w=500",
+ "Black Pepper":"https://images.unsplash.com/photo-1563565375-f3fdfdbefa83?w=500",
+ Coffee:"https://images.unsplash.com/photo-1442512595331-e89e73853f31?w=500",
+ "Palm Oil":"https://images.unsplash.com/photo-1474979266404-7eaacbcd87c5?w=500"
+}
+let d=JSON.parse(localStorage.getItem('ag_holistic')||'[]');
+if(d.length==0){
+ d=[
+  {cr:'Cassava',qt:50,pr:25,vi:'Kaiyamba, Moyamba, Sierra Leone',id:'BG-001',pd:'Fresh'},
+  {cr:'Corn',qt:50,pr:30,vi:'Bagruwa, Moyamba, Sierra Leone',id:'BG-002',pd:'Yellow Dry'},
+  {cr:'Rice',qt:50,pr:35,vi:'Moyamba Junction, SL',id:'BG-003',pd:'Parboiled'},
+  {cr:'Cacao',qt:50,pr:60,vi:'Kenema, Eastern SL',id:'BG-004',pd:'Grade 1'},
+  {cr:'Black Pepper',qt:50,pr:55,vi:'Bo, Southern SL',id:'BG-005',pd:'Organic'}
+ ];localStorage.setItem('ag_holistic',JSON.stringify(d));
+}
+function R(){
+ document.getElementById('n').innerText=d.length;
+ document.getElementById('bags').innerHTML=d.map(x=>`
+ <div class="card"><div style="position:relative"><img class="bagImg" src="${img[x.cr]||img.Rice}"><span class="tag">${x.cr}</span><span style="position:absolute;top:8px;right:8px;background:#fff;padding:4px 7px;border-radius:20px;font-size:11px">🛍️</span></div>
+ <div class="bagBody"><div class="bagTitle">${x.cr} • ${x.qt}kg Bag</div><div class="bagMeta">📦 ${x.id} • ${x.pd||''}</div><div class="bagPrice">NLe ${x.pr}.00</div><div class="bagMeta">📍 ${x.vi}</div></div></div>`).join('');
+}
+R();
+function S(){let c=cr.value;if(!c||c=='Choose Crop'){msg.innerText='⚠️ Choose Crop';return}
+let id='BG-'+String(d.length+1).padStart(3,'0');d.unshift({cr:c,qt:qt.value||50,pr:pr.value||0,vi:vi.value||'Sierra Leone',id:id,pd:pd.value||'Fresh'});localStorage.setItem('ag_holistic',JSON.stringify(d));R();msg.innerText='✅ Saved '+id+' — Offline!';qt.value='';pr.value='';vi.value='';ct.value='';pd.value='';}
+function exportCSV(){let csv='Crop,Qty,Price,Place,ID,Info\n'+d.map(x=>`${x.cr},${x.qt},${x.pr},${x.vi},${x.id},${x.pd}`).join('\n');let b=new Blob([csv],{type:'text/csv'});let a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='agriverse_green_gold.csv';a.click();}
+function shareWA(){let t=`🌿 Agriverse Green Gold Pro - ${d.length} Bags Live: ${location.href}`;window.open('https://wa.me/?text='+encodeURIComponent(t));}
+function V(){let SR=window.SpeechRecognition||window.webkitSpeechRecognition;if(!SR){alert('Voice not supported on this phone, type am');return}let r=new SR();r.lang='en-SL';r.onresult=e=>{let txt=e.results[0][0].transcript;msg.innerText='Yu tok: '+txt;if(txt.toLowerCase().includes('cassava'))cr.value='Cassava';if(txt.toLowerCase().includes('rice'))cr.value='Rice';let num=txt.match(/\\d+/);if(num)qt.value=num[0];};r.start();}
+function ask(){let qq=q.value;if(!qq)return;let box=document.getElementById('chatBox');box.innerHTML+=`<div style="margin:8px 0"><b>You:</b> ${qq}</div>`;let ans='Na good question. For '+qq+', keep am dry, use Agristack bag, price na market dependent. I go learn more soon — offline first!';if(qq.toLowerCase().includes('price'))ans='Current estimate: Rice NLe 35/kg, Cassava 25, Cacao 60. Check Market button for live.';if(qq.toLowerCase().includes('store'))ans='For store: Dry am well, put na jute bag, keep off ground, use neem leaf for insect.';box.innerHTML+=`<div style="background:#fff;padding:8px;border-radius:10px"><b>Farm Doctor:</b> ${ans}</div>`;q.value='';box.scrollTop=box.scrollHeight;}
+</script></body></html>
