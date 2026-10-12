@@ -1,37 +1,36 @@
 <!DOCTYPE html>
-<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Agriverse - Green Gold Pro + Freetown City</title>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Freetown City - Agriverse</title>
 <style>
-body{margin:0;font-family:Inter,system-ui;background:#0a1a0e;color:#fff;padding-bottom:70px}
-header{background:#16a34a;padding:10px 14px;position:sticky;top:0;z-index:30;display:flex;justify-content:space-between;flex-wrap:wrap;gap:6px}
-.b{padding:8px 12px;border-radius:20px;border:none;font-weight:700;cursor:pointer;font-size:12px}
-.g{background:#16a34a;color:#fff}.o{background:#ff7a00;color:#fff}.bl{background:#25D366;color:#fff}.y{background:#facc15;color:#000}
-.city{position:relative;max-width:900px;margin:10px auto;background:#132a18;border-radius:12px;overflow:hidden;border:2px solid #00ff8855}
-.city img{width:100%;display:block;height:260px;object-fit:cover}
-.hot{position:absolute;border:2px solid #00ff88;background:rgba(0,255,136,.25);border-radius:10px;cursor:pointer;animation:pulse 2s infinite;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;color:#fff;text-shadow:0 1px 2px #000}
-@keyframes pulse{0%{box-shadow:0 0 0 0 #00ff8855}100%{box-shadow:0 0 0 14px #00ff8800}}
-.card{background:#fff;color:#111;border-radius:16px;padding:12px;margin:10px;max-width:900px;margin-left:auto;margin-right:auto}
-.mission{background:#122e18;border:1px solid #1f5a2a;border-radius:12px;padding:10px;margin:8px 0}
-.prog{height:8px;background:#1a3d22;border-radius:20px;overflow:hidden;margin:6px 0}.prog i{display:block;height:100%;background:#00ff88}
-.m{position:fixed;inset:0;background:rgba(0,0,0,.75);display:none;align-items:center;justify-content:center;z-index:99;padding:12px}.m.on{display:flex}
-.c{background:#fff;color:#111;border-radius:16px;max-width:440px;width:100%;padding:14px;max-height:90vh;overflow:auto}
-.btn{width:100%;padding:12px;border-radius:10px;border:none;font-weight:700;cursor:pointer;margin-top:8px}
-.hash{font-family:monospace;background:#f1f5f9;padding:5px;border-radius:6px;font-size:11px;word-break:break-all}
-.nav{position:fixed;bottom:0;left:0;right:0;background:#0f2a16;display:flex;justify-content:space-around;padding:8px 0;z-index:40;border-top:1px solid #1f5a2a}
-.nav div{text-align:center;cursor:pointer} .nav b{font-size:11px;display:block;color:#9f9}.nav .active b{color:#00ff88}
-input,select,textarea{width:100%;padding:10px;border-radius:8px;border:1px solid #ddd;margin:6px 0;box-sizing:border-box}
-.bagGrid{display:grid;grid-template-columns:1fr 1fr;gap:8px} .bag{background:#fff;color:#111;border-radius:10px;overflow:hidden;font-size:12px} .bag img{width:100%;height:90px;object-fit:cover}
-</style></head><body>
-<header>
-<div>🌿 <b>Agriverse</b> • Lv.<span id="lvl">5</span> • 🪙 <span id="coins">1240</span> • 💵 $<span id="usd">12.50</span> • <span style="background:#dcfce7;color:#166534;padding:2px 6px;border-radius:10px;font-size:10px">LIVE</span></div>
-<div><button class="b y" onclick="document.getElementById('citySection').scrollIntoView({behavior:'smooth'})">🗺️ City</button> <button class="b g" onclick="document.getElementById('addBag').scrollIntoView({behavior:'smooth'})">+ Add Bag</button></div>
-</header>
-
-<!-- FREETOWN VIRTUAL CITY - ALWAYS VISIBLE NOW -->
-<div id="citySection" class="card" style="background:#0f2a16;color:#fff;border:2px solid #00ff88">
-<h3 style="margin:0 0 6px">🗺️ Freetown Virtual City - Tap Stall to Earn</h3>
-<div class="city">
-<img src="https://images.unsplash.com/photo-1448375240586-882707db888b?w=900" alt="Freetown">
-<div class="hot" style="left:8%;top:55%;width:18%;height:22%" onclick="openBag('AGV-001')">Rice AGV-001</div>
-<div class="hot" style="left:30%;top:58%;width:18%;height:22%" onclick="openBag('AGV-004')">Pepper</div>
-<div class="hot" style="left:52%;top:60%;width:18%;height:22
+body{margin:0;font-family:system-ui;background:#07130a;color:#fff;padding-bottom:80px}
+header{padding:14px;background:#16a34a;position:sticky;top:0;z-index:10;display:flex;justify-content:space-between;align-items:center}
+.card{background:#fff;color:#111;border-radius:18px;padding:14px;margin:12px auto;max-width:900px}
+.btn{width:100%;padding:14px;border:none;border-radius:12px;background:#16a34a;color:#fff;font-weight:900;font-size:16px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.job{background:#f1f5f9;border-radius:12px;padding:10px;border:1px solid #ddd}
+.map{height:280px;background:radial-gradient(#0f3d1a,#000);border-radius:16px;position:relative;overflow:hidden;border:2px solid #16a34a}
+.dot{position:absolute;width:12px;height:12px;border-radius:50%;background:#22c55e;box-shadow:0 0 10px #22c55e}
+.hero{background:linear-gradient(135deg,#16a34a,#065f46);border-radius:18px;padding:18px;margin:12px auto;max-width:900px;text-align:center}
+</style>
+</head>
+<body>
+<header><b>🏙️ Freetown City</b><a href="index.html" style="color:#fff;text-decoration:none">← Back to Market</a></header>
+<div class="hero">
+<h1>Welcome to Freetown City</h1>
+<p>Virtual City inside Agriverse. Deliver Green Gold bags. Earn <b>$1 per delivery</b>.</p>
+<p>🪙 Coins: <span id="coins">1240</span> | 💵 Wallet: $<span id="cash">12.50</span></p>
+<button class="btn" style="background:#fff;color:#16a34a" onclick="document.getElementById('jobs').scrollIntoView({behavior:'smooth'})">🚀 Start Delivering Now</button>
+</div>
+<div class="card"><h3>🗺️ Live City Map</h3><div class="map"><div class="dot" style="left:30%;top:20%"></div><div class="dot" style="left:60%;top:40%;background:#facc15"></div><div class="dot" style="left:45%;top:70%"></div></div></div>
+<div class="card" id="jobs"><h3>📦 Available Deliveries - Earn $1 Each</h3><div class="grid" id="jobGrid"></div></div>
+<div class="card" style="text-align:center"><a href="index.html"><button class="btn">← Back to Green Gold Market</button></a></div>
+<script>
+let jobs=[{name:"Cassava 50kg",from:"Moyamba",to:"Congo Market"},{name:"Rice 50kg",from:"Bo",to:"Lumley"},{name:"Corn 50kg",from:"Kenema",to:"Kissy"},{name:"Cacao 30kg",from:"Kailahun",to:"Hill Station"}];
+function renderJobs(){let g=document.getElementById('jobGrid');g.innerHTML="";jobs.forEach((j,i)=>{g.innerHTML+=`<div class=job><b>${j.name}</b><br><small>${j.from} → ${j.to}</small><br><b style="color:#16a34a">$1 reward</b><br><button onclick="deliver(${i})" style="margin-top:6px;width:100%;padding:8px;border:none;border-radius:8px;background:#16a34a;color:#fff;font-weight:800">✅ Deliver</button></div>`})}
+function deliver(i){let coins=parseInt(localStorage.getItem('avCoins')||'1240');let cash=parseFloat(localStorage.getItem('avCash')||'12.50');coins+=50;cash+=1;localStorage.setItem('avCoins',coins);localStorage.setItem('avCash',cash.toFixed(2));document.getElementById('coins').innerText=coins;document.getElementById('cash').innerText=cash.toFixed(2);alert('Delivered '+jobs[i].name+'! +$1 +50 coins 🪙');jobs.splice(i,1);renderJobs();}
+document.getElementById('coins').innerText=localStorage.getItem('avCoins')||'1240';document.getElementById('cash').innerText=localStorage.getItem('avCash')||'12.50';renderJobs();
+</script>
+</body>
+</html>
