@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>FREETOWN CITY v4 - DRIVE MODE</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;touch-action:none;font-family:system-ui}
+body{background:#0f172a;overflow:hidden;height:100vh;height:100dvh}
+#game{position:absolute;inset:0;width:100%;height:100%}
+.hud{position:absolute;top:0;left:0;right:0;z-index:10;display:flex;justify-content:space-between;padding:10px;pointer-events:none}
+.pill{background:rgba(0,0,0,.75);color:white;padding:8px 12px;border-radius:20px;font-weight:800;font-size:12px;display:flex;align-items:center;gap:6px;border:1px solid rgba(255,255,255,.2)}
+.pill.green{border-color:#16a34a;color:#4ade80}
+.bar{width:50px;height:6px;background:#333;border-radius:5px;overflow:hidden}.fill{height:100%;background:#fde047;transition:width.2s}
+.mission{position:absolute;top:60px;left:10px;right:10px;background:white;border-radius:14px;padding:12px;z-index:10;box-shadow:0 10px 30px rgba(0,0,0,.4);border-left:5px solid #16a34a}
+.btn{width:100%;padding:14px;margin-top:8px;border:none;border-radius:12px;font-weight:900;font-size:14px}
+.btn-deliver{background:#16a34a;color:white}.btn-deliver:disabled{background:#94a3b8}
+.joystick{position:absolute;bottom:20px;left:20px;width:120px;height:120px;background:rgba(255,255,255,.1);border:2px solid rgba(255,255,255,.2);border-radius:50%;z-index:10;touch-action:none}
+.stick{position:absolute;top:50%;left:50%;width:50px;height:50px;background:rgba(255,255,255,.9);border-radius:50%;transform:translate(-50%,-50%);box-shadow:0 3px 10px rgba(0,0,0,.3)}
+.controls{position:absolute;bottom:20px;right:20px;z-index:10;display:flex;flex-direction:column;gap:10px}
+.ctrl-btn{width:70px;height:70px;border-radius:50%;border:none;font-weight:900;font-size:11px;box-shadow:0 4px 15px rgba(0,0,0,.3)}
+.ctrl-fuel{background:#0ea5e9;color:white}.ctrl-ad{background:#7c3aed;color:white}
+.minimap{position:absolute;top:60px;right:10px;width:80px;height:80px;background:rgba(0,0,0,.7);border-radius:12px;border:2px solid #16a34a;z-index:10;overflow:hidden}
+.ad-modal{position:fixed;inset:0;background:rgba(0,0,0,.85);display:none;justify-content:center;align-items:center;z-index:100;padding:20px}.ad-box{background:white;padding:20px;border-radius:20px;text-align:center;width:100%;max-width:320px}
+</style>
+</head>
+<body>
+<canvas id="game"></canvas>
+<div class="hud">
+<div class="pill">💰 $<span id="cash">3.5</span> | 🪙 <span id="coins">250</span></div>
+<div class="pill green">⛽ <span id="fuelT">100%</span><div class="bar"><div id="fuelF" class="fill" style="width:100%"></div></div></div>
+</div>
+<div class="mission" id="missionBox">
+<div style="font-weight:900;font-size:14px">📦 CURRENT JOB</div>
+<div id="mText" style="font-size:13px;margin:6px 0;line-height:1.4"><b>Rice 50kg</b> - Eastern Market → Cotton Tree<br>💰 Reward: <b>$1 + 50 coins</b><br>⛽ Cost: 15% if you drive slow, 25% if fast<br>Distance: <span id="dist">0</span>m</div>
+<button class="btn btn-deliver" id="delBtn" onclick="completeMission()">🏁 REACH GREEN CIRCLE TO DELIVER</button>
+</div>
+<div class="minimap"><canvas id="mini" width="80" height="80"></canvas></div>
+<div class="joystick" id="joy"><div class="stick" id="stick"></div></div>
+<div class="controls"><button class="ctrl-btn ctrl-fuel" onclick="buyFuel()">⛽<br>FUEL<br>500c</button><button class="ctrl-btn ctrl-ad" onclick="watchAd()">📺<br>AD<br>+20%</button></div>
+<div class="ad-modal" id="adModal"><div class="ad-box"><h3>📺 NP Gas Ad</h3><p style="margin:10px 0">Full your tank, full your life!</p><div id="adTimer" style="background:black;color:#22c55e;padding:12px;border-radius:8px;font-weight:900">5s... Earn $0.01</div><button id="adClose" style="display:none;margin-top:12px" class="btn btn-deliver" onclick="closeAd()">✅ CLAIM</button></div></div>
+<script>
+const canvas=document.getElementById('game'); const ctx=canvas.getContext('2d');
+const mini=document.getElementById('mini'); const mctx=mini.getContext('2d');
+let W,H; function resize(){W=canvas.width=window.innerWidth; H=canvas.height=window.innerHeight;} resize(); window.addEventListener('resize',resize);
+let coins=250,cash=3.5,fuel=100;
+let player={x:500,y:500,angle:0,speed:0,vx:0,vy:0};
+let keys={x:0,y:0};
+let buildings=[
+ {x:200,y:200,w:120,h:80,color:'#f59e0b',name:'LUMLEY BILLBOARD',type:'billboard',price:50},
+ {x:800,y:150,w:100,h:100,color:'#ef4444',name:'COTTON TREE',type:'center'},
+ {x:150,y:600,w:140,h:90,color:'#16a34a',name:'EASTERN MARKET',type:'shop'},
+ {x:700,y:650,w:130,h:90,color:'#16a34a',name:'LUMLEY SHOP',type:'shop'},
+ {x:400,y:400,w:110,h:110,color:'#0ea5e9',name:'CITY HALL',type:'hall'},
+];
+let mission={active:true, target:{x:800,y:150}, start:{x:150,y:600}, rewardC:50, rewardD:1, name:'Rice 50kg'};
+let particles=[];
+function updateHUD(){
+ document.getElementById('cash').innerText=cash.toFixed(1);
+ document.getElementById('coins').innerText=coins;
+ document.getElementById('fuelT').innerText=Math.floor(fuel)+'%';
+ document.getElementById('fuelF').style.width=fuel+'%';
+ let dx=mission.target.x-player.x, dy=mission.target.y-player.y;
+ let d=Math.hypot(dx,dy); document.getElementById('dist').innerText=Math.floor(d);
+ if(d<60){document.getElementById('delBtn').innerText='✅ DELIVER NOW! TAP!'; document.getElementById('delBtn').style.background='#22c55e';} else {document.getElementById('delBtn').innerText='🏁 REACH GREEN CIRCLE'; document.getElementById('delBtn').style.background='#94a3b8';}
+}
+let cam={x:0,y:0};
+function draw(){
+ cam.x+=(player.x - W/2 - cam.x)*0.08;
+ cam.y+=(player.y - H/2 - cam.y)*0.08;
+ ctx.fillStyle='#cbd5e1'; ctx.fillRect(0,0,W,H);
+ ctx.fillStyle='#e2e8f0';
+ for(let i=-1000;i<2000;i+=80){ctx.fillRect(i - cam.x%80,0,1,H); ctx.fillRect(0,i - cam.y%80,W,1);}
+ ctx.fillStyle='#334155'; ctx.fillRect(0,500 - cam.y,W,120); ctx.fillRect(500 - cam.x,0,120,H);
+ ctx.strokeStyle='#fde047'; ctx.setLineDash([20,20]); ctx.beginPath(); ctx.moveTo(0,560 - cam.y); ctx.lineTo(W,560 - cam.y); ctx.moveTo(560 - cam.x,0); ctx.lineTo(560 - cam.x,H); ctx.stroke(); ctx.setLineDash([]);
+ for(let b of buildings){
+   let sx=b.x - cam.x, sy=b.y - cam.y;
+   if(sx>-200&&sx<W+200&&sy>-200&&sy<H+200){
+     ctx.fillStyle=b.color; ctx.fillRect(sx,sy,b.w,b.h);
+     ctx.fillStyle='rgba(0,0,0,.15)'; ctx.fillRect(sx,sy,b.w,8); ctx.fillRect(sx,sy,8,b.h);
+     ctx.fillStyle='white'; ctx.font='900 10px system-ui'; ctx.fillText(b.name,sx+6,sy+18);
+     if(b.type=='billboard'){ctx.fillStyle='#000'; ctx.fillRect(sx+10,sy+28,b.w-20,18); ctx.fillStyle='#facc15'; ctx.fillText('$'+b.price+'/mo',sx+14,sy+40);}
+   }
+ }
+ let tx=mission.target.x - cam.x, ty=mission.target.y - cam.y;
+ ctx.beginPath(); ctx.arc(tx,ty,45,0,Math.PI*2); ctx.fillStyle='rgba(34,197,94,.25)'; ctx.fill(); ctx.strokeStyle='#22c55e'; ctx.lineWidth=3; ctx.stroke();
+ ctx.fillStyle='#22c55e'; ctx.font='900 24px system-ui'; ctx.fillText('📦',tx-12,ty+8);
+ let px=W/2, py=H/2;
+ ctx.save(); ctx.translate(px,py); ctx.rotate(player.angle);
+ ctx.fillStyle='#16a34a'; ctx.fillRect(-16,-10,32,20);
+ ctx.fillStyle='#facc15'; ctx.beginPath(); ctx.arc(14,0,8,0,Math.PI*2); ctx.fill();
+ ctx.fillStyle='#000'; ctx.fillRect(-18,-6,8,12); ctx.fillRect(10,-6,8,12);
+ ctx.restore();
+ for(let p of particles){let sx=p.x - cam.x, sy=p.y - cam.y; ctx.fillStyle='rgba(0,0,0,'+p.a+')'; ctx.beginPath(); ctx.arc(sx,sy,p.r,0,6.28); ctx.fill();}
+ mctx.clearRect(0,0,80,80); mctx.fillStyle='#334155'; mctx.fillRect(0,0,80,80);
+ for(let b of buildings){mctx.fillStyle=b.color; mctx.fillRect(b.x/15,b.y/15,b.w/15,b.h/15);}
+ mctx.fillStyle='#22c55e'; mctx.beginPath(); mctx.arc(mission.target.x/15,mission.target.y/15,4,0,6.28); mctx.fill();
+ mctx.fillStyle='#facc15'; mctx.beginPath(); mctx.arc(player.x/15,player.y/15,3,0,6.28); mctx.fill();
+ requestAnimationFrame(loop);
+}
+function loop(){
+ if(fuel>0 && (keys.x||keys.y)){
+   let power=Math.hypot(keys.x,keys.y); if(power>1){keys.x/=power; keys.y/=power;}
+   player.angle=Math.atan2(keys.y,keys.x);
+   player.vx+=keys.x*0.4; player.vy+=keys.y*0.4;
+   fuel-=0.04*power; if(fuel<0)fuel=0;
+   if(Math.random()<0.2) particles.push({x:player.x - Math.cos(player.angle)*16, y:player.y - Math.sin(player.angle)*16, r:2+Math.random()*3, a:0.4});
+ } else {player.vx*=0.92; player.vy*=0.92;}
+ player.x+=player.vx; player.y+=player.vy;
+ player.vx*=0.96; player.vy*=0.96;
+ player.x=Math.max(0,Math.min(1000,player.x)); player.y=Math.max(0,Math.min(1000,player.y));
+ for(let p of particles){p.a-=0.02; p.r+=0.1;} particles=particles.filter(p=>p.a>0);
+ updateHUD(); draw();
+}
+draw();
+const joy=document.getElementById('joy'); const stick=document.getElementById('stick');
+let active=false, origin={x:0,y:0};
+function handleStart(e){active=true; let t=e.touches?e.touches[0]:e; let r=joy.getBoundingClientRect(); origin={x:r.left+r.width/2,y:r.top+r.height/2};}
+function handleMove(e){if(!active)return; let t=e.touches?e.touches[0]:e; let dx=t.clientX-origin.x, dy=t.clientY-origin.y; let d=Math.hypot(dx,dy); let max=45; if(d>max){dx=dx/d*max; dy=dy/d*max;} stick.style.transform=`translate(calc(-50% + ${dx}px), calc(-50% + ${dy}px))`; keys.x=dx/max; keys.y=dy/max;}
+function handleEnd(){active=false; stick.style.transform='translate(-50%,-50%)'; keys.x=0; keys.y=0;}
+joy.addEventListener('touchstart',handleStart); joy.addEventListener('touchmove',handleMove); joy.addEventListener('touchend',handleEnd);
+joy.addEventListener('mousedown',handleStart); window.addEventListener('mousemove',handleMove); window.addEventListener('mouseup',handleEnd);
+function completeMission(){
+ let dx=mission.target.x-player.x, dy=mission.target.y-player.y; if(Math.hypot(dx,dy)>60){alert('Drive to green circle first! Use joystick bottom left');return;}
+ coins+=mission.rewardC; cash+=mission.rewardD; updateHUD();
+ let shops=buildings.filter(b=>b.type=='shop'); let centers=buildings.filter(b=>b.type=='center');
+ let s=shops[Math.floor(Math.random()*shops.length)]; let t=centers[Math.floor(Math.random()*centers.length)];
+ mission.target={x:t.x+t.w/2,y:t.y+t.h/2}; mission.start={x:s.x,y:s.y}; mission.rewardC=50+Math.floor(Math.random()*50); mission.rewardD=1+Math.random();
+ document.getElementById('mText').innerHTML=`<b>${['Rice','Cassava','Fish','Palm Oil'][Math.floor(Math.random()*4)]} ${50+Math.floor(Math.random()*50)}kg</b> - ${s.name} → ${t.name}<br>💰 Reward: <b>$${mission.rewardD.toFixed(1)} + ${mission.rewardC} coins</b><br>⛽ Cost: 15-25%<br>Distance: <span id="dist">0</span>m`;
+ for(let i=0;i<20;i++) particles.push({x:player.x,y:player.y,r:3+Math.random()*5,a:0.8});
+ if(fuel<15) alert('Low fuel! Watch ad = $0.01');
+}
+function buyFuel(){if(coins<500){alert('Need 500 coins! Players buy via MoMo');return;} coins-=500; fuel=100; updateHUD();}
+function watchAd(){document.getElementById('adModal').style.display='flex'; let sec=5; let t=setInterval(()=>{sec--; document.getElementById('adTimer').innerText=sec+'s... Earn $0.01'; if(sec<=0){clearInterval(t); document.getElementById('adTimer').innerText='✅ Finished!'; document.getElementById('adClose').style.display='block';}},1000);}
+function closeAd(){document.getElementById('adModal').style.display='none'; document.getElementById('adClose').style.display='none'; fuel=Math.min(100,fuel+20); cash+=0.01; updateHUD();}
+updateHUD();
+</script>
+</body>
+</html>
