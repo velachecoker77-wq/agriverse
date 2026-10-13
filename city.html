@@ -1,36 +1,173 @@
-<!DOCTYPE html>
+<!<!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Freetown City - Agriverse</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FREETOWN CITY v2 - Money Machine</title>
 <style>
-body{margin:0;font-family:system-ui;background:#07130a;color:#fff;padding-bottom:80px}
-header{padding:14px;background:#16a34a;position:sticky;top:0;z-index:10;display:flex;justify-content:space-between;align-items:center}
-.card{background:#fff;color:#111;border-radius:18px;padding:14px;margin:12px auto;max-width:900px}
-.btn{width:100%;padding:14px;border:none;border-radius:12px;background:#16a34a;color:#fff;font-weight:900;font-size:16px}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.job{background:#f1f5f9;border-radius:12px;padding:10px;border:1px solid #ddd}
-.map{height:280px;background:radial-gradient(#0f3d1a,#000);border-radius:16px;position:relative;overflow:hidden;border:2px solid #16a34a}
-.dot{position:absolute;width:12px;height:12px;border-radius:50%;background:#22c55e;box-shadow:0 0 10px #22c55e}
-.hero{background:linear-gradient(135deg,#16a34a,#065f46);border-radius:18px;padding:18px;margin:12px auto;max-width:900px;text-align:center}
+*{margin:0;padding:0;box-sizing:border-box;font-family:system-ui}
+body{background:#0f172a;color:white}
+header{background:#020617;padding:12px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:10;border-bottom:2px solid #f59e0b;flex-wrap:wrap;gap:8px}
+.logo{font-weight:900;color:#f59e0b;font-size:14px}
+.stats{display:flex;gap:8px;font-size:11px;flex-wrap:wrap}
+.stat{background:#1e293b;padding:6px 10px;border-radius:20px;display:flex;align-items:center;gap:4px}
+.fuel-bar{width:70px;height:6px;background:#334155;border-radius:10px;overflow:hidden;margin-left:4px}
+.fuel-fill{height:100%;background:linear-gradient(90deg,#22c55e,#f59e0b);transition:width 0.5s}
+.map{padding:12px;display:grid;grid-template-columns:1fr 1fr;gap:10px}
+@media(max-width:600px){.map{grid-template-columns:1fr}}
+.building{background:#1e293b;border-radius:12px;padding:12px;border:1px solid #334155;position:relative}
+.building.billboard{border-color:#f59e0b;background:linear-gradient(135deg,#1e293b,#422006)}
+.building.shop{border-color:#22c55e}
+.badge{position:absolute;top:-8px;right:8px;background:#f59e0b;color:black;font-size:9px;padding:3px 8px;border-radius:10px;font-weight:900}
+.job{background:#0f172a;margin-top:8px;padding:8px;border-radius:8px;font-size:12px;line-height:1.4}
+.btn{width:100%;margin-top:8px;padding:10px;border:none;border-radius:8px;font-weight:800;cursor:pointer;font-size:12px}
+.btn-deliver{background:#22c55e;color:black}
+.btn-own{background:#f59e0b;color:black}
+.btn-fuel{background:#3b82f6;color:white}
+.btn-ad{background:#8b5cf6;color:white;margin-top:4px}
+.wallet{margin:12px;background:#020617;padding:12px;border-radius:12px;border:1px dashed #f59e0b}
+.ad-modal{position:fixed;inset:0;background:rgba(0,0,0,0.9);display:none;justify-content:center;align-items:center;z-index:100;padding:20px}
+.ad-box{background:white;color:black;padding:20px;border-radius:16px;text-align:center;max-width:320px;width:100%}
 </style>
 </head>
 <body>
-<header><b>🏙️ Freetown City</b><a href="index.html" style="color:#fff;text-decoration:none">← Back to Market</a></header>
-<div class="hero">
-<h1>Welcome to Freetown City</h1>
-<p>Virtual City inside Agriverse. Deliver Green Gold bags. Earn <b>$1 per delivery</b>.</p>
-<p>🪙 Coins: <span id="coins">1240</span> | 💵 Wallet: $<span id="cash">12.50</span></p>
-<button class="btn" style="background:#fff;color:#16a34a" onclick="document.getElementById('jobs').scrollIntoView({behavior:'smooth'})">🚀 Start Delivering Now</button>
+<header>
+<div class="logo">FREETOWN CITY v2 MAYOR MODE</div>
+<div class="stats">
+<div class="stat">🪙 <span id="coins">250</span></div>
+<div class="stat">$<span id="dollars">3.5</span></div>
+<div class="stat">⛽ <span id="fuelText">100%</span><div class="fuel-bar"><div id="fuelFill" class="fuel-fill" style="width:100%"></div></div></div>
+<div class="stat">📦 <span id="deliv">3</span></div>
 </div>
-<div class="card"><h3>🗺️ Live City Map</h3><div class="map"><div class="dot" style="left:30%;top:20%"></div><div class="dot" style="left:60%;top:40%;background:#facc15"></div><div class="dot" style="left:45%;top:70%"></div></div></div>
-<div class="card" id="jobs"><h3>📦 Available Deliveries - Earn $1 Each</h3><div class="grid" id="jobGrid"></div></div>
-<div class="card" style="text-align:center"><a href="index.html"><button class="btn">← Back to Green Gold Market</button></a></div>
+</header>
+
+<div class="wallet">
+<h3 style="color:#f59e0b;font-size:13px">💼 VIRTUAL WALLET - PILOT MODE</h3>
+<p style="font-size:11px;color:#94a3b8;margin-top:4px">Virtual now. When buyer pays real $1.50 delivery fee via Orange Money *144#, this converts to real MoMo. Fuel = Monetization!</p>
+<div style="display:flex;gap:8px;margin-top:8px">
+<div style="flex:1;background:#1e293b;padding:8px;border-radius:8px;text-align:center"><div style="font-size:9px;color:#94a3b8">EARNED</div><div style="font-weight:900;color:#22c55e">$<span id="wEarned">3.5</span></div></div>
+<div style="flex:1;background:#1e293b;padding:8px;border-radius:8px;text-align:center"><div style="font-size:9px;color:#94a3b8">FUEL</div><div style="font-weight:900;color:#3b82f6" id="wFuel">100%</div></div>
+<div style="flex:1;background:#1e293b;padding:8px;border-radius:8px;text-align:center"><div style="font-size:9px;color:#94a3b8">LAND OWNED</div><div style="font-weight:900" id="wLand">0</div></div>
+</div>
+</div>
+
+<div style="padding:0 12px;display:flex;gap:6px;flex-wrap:wrap">
+<button class="btn btn-fuel" onclick="buyFuel()" style="flex:1">⛽ Buy Fuel 500 coins / Le5k</button>
+<button class="btn btn-ad" onclick="watchAd()" style="flex:1">📺 Watch Ad +20% Fuel = $0.01 for you</button>
+</div>
+
+<div class="map">
+<div class="building billboard">
+<span class="badge">BILLBOARD #1 - LUMLEY</span>
+<div style="font-weight:900;margin-top:10px;color:#fbbf24">📍 LUMLEY BEACH ROAD - 50k views/day</div>
+<div class="job" id="ad1">Current: Agriverse Green Gold<br>Owner: YOU (Mayor)<br>Price: $50/month<br><small>Pitch to: Orange Money *144#</small></div>
+<button class="btn btn-own" onclick="sellBillboard(1)">💰 SELL AD SPACE - $50/mo</button>
+</div>
+<div class="building billboard">
+<span class="badge">BILLBOARD #2 - COTTON TREE</span>
+<div style="font-weight:900;margin-top:10px;color:#fbbf24">📍 COTTON TREE - Center of City</div>
+<div class="job" id="ad2">Current: YOUR BRAND HERE<br>Reach: 1000 players/day<br>Price: $30/month<br><small>Pitch to: Africell</small></div>
+<button class="btn btn-own" onclick="sellBillboard(2)">💰 SELL AD SPACE - $30/mo</button>
+</div>
+<div class="building shop">
+<span class="badge" style="background:#22c55e">SHOP PLOT - FOR SALE</span>
+<div style="font-weight:900;margin-top:10px">🏪 Eastern Market Stall</div>
+<div style="font-size:11px;color:#22c55e">Owner: FREE - You can own!</div>
+<div class="job">📦 Rice 50kg Moyamba → East<br>💰 Reward: $1 + 50 coins<br>⛽ Cost: 20% fuel<br>📍 Distance: 5km</div>
+<button class="btn btn-deliver" onclick="deliverBag(this,50,1)">🛵 DELIVER THIS BAG</button>
+<button class="btn btn-own" style="background:#1e293b;color:#22c55e;border:1px solid #22c55e" onclick="buyShop('Eastern')">🏠 OWN THIS SHOP - 5000 coins / Le50k<br><small>Earn 10% on all deliveries here</small></button>
+</div>
+<div class="building shop">
+<span class="badge" style="background:#22c55e">SHOP PLOT - FOR SALE</span>
+<div style="font-weight:900;margin-top:10px">🏪 Lumley Agric Shop</div>
+<div style="font-size:11px;color:#22c55e">Owner: FREE</div>
+<div class="job">📦 Cassava 100kg → Aberdeen<br>💰 Reward: $1.5 + 75 coins<br>⛽ Cost: 20% fuel</div>
+<button class="btn btn-deliver" onclick="deliverBag(this,75,1.5)">🛵 DELIVER THIS BAG</button>
+<button class="btn btn-own" style="background:#1e293b;color:#22c55e;border:1px solid #22c55e" onclick="buyShop('Lumley')">🏠 OWN THIS SHOP - 5000 coins</button>
+</div>
+<div class="building billboard">
+<span class="badge" style="background:#3b82f6">SPONSOR SLOT</span>
+<div style="font-weight:900;margin-top:10px">🏦 Orange Money HQ + EDSA</div>
+<div class="job" id="ad3">Service: Pay EDSA, Buy Fuel, Cashout<br>Your cut: 2% per transaction<br>Status: <span style="color:#ef4444">NOT SPONSORED</span><br><small>Fuelled by NP Gas - $20/mo</small></div>
+<button class="btn btn-own" style="background:#3b82f6" onclick="sellBillboard(3)">💳 SELL SERVICE SLOT - $20/mo</button>
+</div>
+<div class="building">
+<div style="font-weight:900">🏆 LEADERBOARD - TOP DRIVERS</div>
+<div class="job" id="leader">
+1. You - <span id="lbYou">3</span> deliveries<br>
+2. Alhaji (East) - 12 deliv - Owns 2 shops<br>
+3. Mariatu (Lumley) - 9 deliv - VIP Pass<br>
+<small style="color:#f59e0b">Top driver gets real delivery jobs first + City Captain title!</small>
+</div>
+<button class="btn btn-own" style="background:#1e293b;border:1px solid #f59e0b;color:#f59e0b" onclick="alert('City Pass $3/mo: No ads, double coins, priority real jobs, VIP badge. 100 boys x $3 = $300/mo')">⭐ BUY CITY PASS $3/mo</button>
+</div>
+</div>
+
+<div class="ad-modal" id="adModal">
+<div class="ad-box">
+<h2 style="color:#f59e0b">📺 ADVERTISEMENT</h2>
+<p style="margin:12px 0;font-size:14px;font-weight:700" id="adText">NP Gas - Full your tank, full your life! Best fuel in Salone.</p>
+<div style="background:#000;color:#0f0;padding:12px;font-family:monospace;margin:10px 0;border-radius:8px" id="adTimer">Ad ends in 5s... (You earn $0.01)</div>
+<button class="btn btn-fuel" id="adClose" style="display:none" onclick="closeAd()">✅ CLAIM +20% FUEL</button>
+<p style="font-size:10px;margin-top:10px;color:#666">AdMob: 1000 players x 5 ads/day = $50/day = $1500/mo</p>
+</div>
+</div>
+
 <script>
-let jobs=[{name:"Cassava 50kg",from:"Moyamba",to:"Congo Market"},{name:"Rice 50kg",from:"Bo",to:"Lumley"},{name:"Corn 50kg",from:"Kenema",to:"Kissy"},{name:"Cacao 30kg",from:"Kailahun",to:"Hill Station"}];
-function renderJobs(){let g=document.getElementById('jobGrid');g.innerHTML="";jobs.forEach((j,i)=>{g.innerHTML+=`<div class=job><b>${j.name}</b><br><small>${j.from} → ${j.to}</small><br><b style="color:#16a34a">$1 reward</b><br><button onclick="deliver(${i})" style="margin-top:6px;width:100%;padding:8px;border:none;border-radius:8px;background:#16a34a;color:#fff;font-weight:800">✅ Deliver</button></div>`})}
-function deliver(i){let coins=parseInt(localStorage.getItem('avCoins')||'1240');let cash=parseFloat(localStorage.getItem('avCash')||'12.50');coins+=50;cash+=1;localStorage.setItem('avCoins',coins);localStorage.setItem('avCash',cash.toFixed(2));document.getElementById('coins').innerText=coins;document.getElementById('cash').innerText=cash.toFixed(2);alert('Delivered '+jobs[i].name+'! +$1 +50 coins 🪙');jobs.splice(i,1);renderJobs();}
-document.getElementById('coins').innerText=localStorage.getItem('avCoins')||'1240';document.getElementById('cash').innerText=localStorage.getItem('avCash')||'12.50';renderJobs();
+let coins=250, dollars=3.5, deliveries=3, fuel=100, land=0;
+function updateUI(){
+ document.getElementById('coins').innerText=coins;
+ document.getElementById('dollars').innerText=dollars.toFixed(1);
+ document.getElementById('deliv').innerText=deliveries;
+ document.getElementById('wEarned').innerText=dollars.toFixed(1);
+ document.getElementById('wFuel').innerText=fuel+'%';
+ document.getElementById('wLand').innerText=land;
+ document.getElementById('lbYou').innerText=deliveries;
+ document.getElementById('fuelText').innerText=fuel+'%';
+ document.getElementById('fuelFill').style.width=fuel+'%';
+}
+function deliverBag(btn,c,d){
+ if(fuel<20){alert('⛽ NO FUEL! This is monetization: Player must watch ad (you earn $0.01) or buy fuel 500 coins (Le5k Orange Money).');return;}
+ fuel-=20; coins+=c; dollars+=d; deliveries++;
+ updateUI();
+ btn.innerText='✅ DELIVERED! +$'+d+' +'+c+' coins';
+ btn.style.background='#334155'; btn.disabled=true;
+ setTimeout(()=>{btn.parentElement.style.display='none';},800);
+ if(fuel<=0){alert('Tank empty! Watch ad to continue - AdMob money!');}
+}
+function buyFuel(){
+ if(coins<500){alert('Not enough coins! Need 500. Players buy 1000 coins for Le20k via Orange Money *144#.');return;}
+ coins-=500; fuel=100; updateUI();
+ alert('⛽ Full tank! You spent 500 coins. Later: Player sends Le5k Orange Money, you confirm and give fuel.');
+}
+function watchAd(){
+ document.getElementById('adModal').style.display='flex';
+ let sec=5;
+ let t=setInterval(()=>{
+  sec--; document.getElementById('adTimer').innerText='Ad ends in '+sec+'s... (You earn $0.01)';
+  if(sec<=0){clearInterval(t); document.getElementById('adTimer').innerText='Ad Finished! Claim Reward!'; document.getElementById('adClose').style.display='block';}
+ },1000);
+}
+function closeAd(){
+ document.getElementById('adModal').style.display='none';
+ document.getElementById('adClose').style.display='none';
+ fuel=Math.min(100,fuel+20); updateUI();
+ alert('📺 +20% Fuel! You earned $0.01 from Google AdMob. 2000 views/day = $20/day');
+}
+function sellBillboard(id){
+ let comp=prompt('Enter company: e.g. Orange Money, Africell, Premier Feed, NP Gas');
+ if(comp){
+  document.getElementById('ad'+id).innerHTML='SOLD! Ad: '+comp+'<br>Price: $'+(id==1?50:id==2?30:20)+'/mo PAID ✅<br><small>Put logo here in city</small>';
+  dollars+=(id==1?50:id==2?30:20); updateUI();
+  alert('Billboard sold to '+comp+'! Send them screenshot: "1000 youth see your brand daily in Freetown City game". They pay via Orange Money.');
+ }
+}
+function buyShop(area){
+ if(coins<5000){alert('Need 5000 coins! Or Le50k Orange Money. This is VIRTUAL LAND. You are landlord!');return;}
+ coins-=5000; land++; updateUI();
+ alert('🏪 You now OWN '+area+' shop! You earn 10% extra on all deliveries there. When more players join, your plot value x2. You are digital landlord of Freetown!');
+}
+updateUI();
 </script>
 </body>
 </html>
