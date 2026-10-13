@@ -2,165 +2,147 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<title>FREETOWN CITY v3</title>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>FREETOWN CITY v4 - POLICE EDITION 🇸🇱</title>
 <style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:-apple-system,system-ui}
-body{background:#f1f5f9;color:#0f172a;padding-bottom:80px}
-.header{background:#16a34a;color:white;padding:14px 16px;position:sticky;top:0;z-index:20;display:flex;justify-content:space-between;align-items:center}
-.logo{font-weight:900;font-size:18px}
-.fuel-top{display:flex;gap:8px;align-items:center;background:rgba(0,0,0,0.2);padding:6px 12px;border-radius:20px;font-size:13px;font-weight:700}
-.bar{width:60px;height:8px;background:rgba(255,255,255,0.3);border-radius:10px;overflow:hidden}
-.fill{height:100%;background:#fde047;transition:width 0.4s}
-.wallet{background:white;margin:12px;padding:14px;border-radius:16px;box-shadow:0 2px 10px rgba(0,0,0,0.08);border-left:5px solid #16a34a}
-.row{display:flex;gap:10px;margin-top:10px}
-.card-stat{flex:1;background:#f8fafc;padding:10px;border-radius:12px;text-align:center}
-.big{font-size:18px;font-weight:900}
-.small{font-size:10px;color:#64748b;text-transform:uppercase;font-weight:700}
-.actions{display:flex;gap:10px;padding:0 12px;margin-bottom:12px}
-.btn{flex:1;padding:14px;border:none;border-radius:14px;font-weight:900;font-size:13px;cursor:pointer}
-.btn-fuel{background:#0ea5e9;color:white}
-.btn-ad{background:#7c3aed;color:white}
-.map{display:flex;flex-direction:column;gap:14px;padding:0 12px}
-.building{background:white;border-radius:18px;padding:16px;box-shadow:0 4px 15px rgba(0,0,0,0.07);position:relative;overflow:hidden}
-.building.billboard{border:2px solid #f59e0b}
-.building.shop{border:2px solid #16a34a}
-.top-tag{position:absolute;top:0;right:0;background:#f59e0b;color:black;font-size:10px;font-weight:900;padding:5px 12px;border-bottom-left-radius:12px}
-.shop-tag{background:#16a34a;color:white}
-.job{background:#f8fafc;margin-top:10px;padding:12px;border-radius:12px;font-size:13px;line-height:1.5;border:1px dashed #cbd5e1}
-.btn-deliver{background:#16a34a;color:white;width:100%;padding:16px;margin-top:12px;border:none;border-radius:14px;font-weight:900;font-size:15px}
-.btn-own{background:#fef3c7;color:#92400e;width:100%;padding:12px;margin-top:8px;border:1px solid #f59e0b;border-radius:12px;font-weight:800;font-size:12px}
-.title{font-weight:900;font-size:16px}
-.sub{font-size:12px;color:#16a34a;font-weight:700;margin-top:2px}
-.ad-modal{position:fixed;inset:0;background:rgba(0,0,0,0.85);display:none;justify-content:center;align-items:center;z-index:100;padding:20px}
-.ad-box{background:white;padding:24px;border-radius:20px;text-align:center;width:100%;max-width:360px}
-.timer{background:black;color:#22c55e;padding:14px;border-radius:10px;font-family:monospace;font-weight:900;margin:12px 0;font-size:16px}
+*{margin:0;padding:0;box-sizing:border-box;touch-action:none;font-family:system-ui}
+body{background:#0f172a;overflow:hidden;height:100vh;height:100dvh}
+#game{position:absolute;inset:0;width:100%;height:100%}
+.hud{position:absolute;top:0;left:0;right:0;z-index:10;display:flex;justify-content:space-between;padding:8px;pointer-events:none;gap:6px}
+.pill{background:rgba(0,0,0,.85);color:white;padding:8px 10px;border-radius:20px;font-weight:800;font-size:11px;display:flex;align-items:center;gap:5px;border:1px solid rgba(255,255,255,.2)}
+.pill.yellow{border-color:#facc15;color:#facc15}.pill.green{border-color:#16a34a;color:#4ade80}.pill.red{border-color:#ef4444;color:#fca5a5}
+.bar{width:40px;height:6px;background:#333;border-radius:5px;overflow:hidden}.fill{height:100%;background:#fde047}
+.mission{position:absolute;top:52px;left:8px;right:8px;background:white;border-radius:14px;padding:10px;z-index:10;box-shadow:0 10px 30px rgba(0,0,0,.5);border-left:5px solid #16a34a}
+.btn{width:100%;padding:12px;margin-top:6px;border:none;border-radius:12px;font-weight:900;font-size:13px;cursor:pointer}
+.btn-deliver{background:#16a34a;color:white}
+.joystick{position:absolute;bottom:15px;left:15px;width:110px;height:110px;background:rgba(255,255,255,.12);border:2px solid rgba(255,255,255,.25);border-radius:50%;z-index:10}
+.stick{position:absolute;top:50%;left:50%;width:48px;height:48px;background:white;border-radius:50%;transform:translate(-50%,-50%);box-shadow:0 3px 10px rgba(0,0,0,.4)}
+.controls{position:absolute;bottom:15px;right:10px;z-index:10;display:flex;gap:8px}
+.ctrl-btn{width:62px;height:62px;border-radius:50%;border:none;font-weight:900;font-size:10px;line-height:1.1;box-shadow:0 4px 12px rgba(0,0,0,.4)}
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.85);display:none;justify-content:center;align-items:center;z-index:100;padding:20px}.box{background:white;padding:18px;border-radius:18px;text-align:center;width:100%;max-width:340px}
+.bribe-btn{padding:14px;border-radius:12px;border:none;font-weight:900;width:48%;font-size:12px}.bribe-pay{background:#ef4444;color:white}.bribe-run{background:#334155;color:white}
 </style>
 </head>
 <body>
-<div class="header">
-<div class="logo">🏙️ FREETOWN CITY v3</div>
-<div class="fuel-top">⛽ <span id="fuelText">100%</span><div class="bar"><div id="fuelFill" class="fill" style="width:100%"></div></div></div>
+<canvas id="game"></canvas>
+<div class="hud">
+<div class="pill">💰 $<span id="cash">3.5</span> 🪙 <span id="coins">250</span></div>
+<div class="pill yellow">⛽ <span id="fuelT">100%</span><div class="bar"><div id="fuelF" class="fill" style="width:100%"></div></div></div>
+<div class="pill red" id="wantedPill" style="display:none">🚨 WANTED</div>
 </div>
-
-<div class="wallet">
-<div style="display:flex;justify-content:space-between;align-items:center">
-<div><div style="font-weight:900;font-size:15px">💰 My Wallet</div><div style="font-size:11px;color:#64748b">Pilot - Virtual → Real MoMo soon</div></div>
-<div style="text-align:right"><div style="font-weight:900;color:#16a34a;font-size:18px">$<span id="dollars">3.5</span></div><div style="font-size:10px">🪙 <span id="coins">250</span> coins</div></div>
+<div class="mission">
+<div style="font-weight:900;font-size:13px;display:flex;justify-content:space-between"><span>📦 <span id="jobName">Rice 50kg - Lumley → Cotton Tree</span></span><span style="color:#16a34a" id="dist">120m</span></div>
+<div style="font-size:11px;color:#475569;margin-top:4px">Reward: <b id="reward">$1 + 50c</b> | Police: Pay or run! | Pothole = wobble!</div>
+<button class="btn btn-deliver" id="delBtn" onclick="completeMission()">🏁 DRIVE TO GREEN CIRCLE</button>
 </div>
-<div class="row">
-<div class="card-stat"><div class="big" id="wEarned" style="color:#16a34a">$3.5</div><div class="small">Earned</div></div>
-<div class="card-stat"><div class="big" id="wFuel">100%</div><div class="small">Fuel</div></div>
-<div class="card-stat"><div class="big" id="deliv">3</div><div class="small">Deliveries</div></div>
-<div class="card-stat"><div class="big" id="wLand">0</div><div class="small">Lands</div></div>
-</div>
-</div>
-
-<div class="actions">
-<button class="btn btn-fuel" onclick="buyFuel()">⛽ Buy Fuel<br><small>500 coins</small></button>
-<button class="btn btn-ad" onclick="watchAd()">📺 Watch Ad<br><small>+20% Fuel = $0.01</small></button>
-</div>
-
-<div class="map">
-<div class="building billboard">
-<div class="top-tag">🔥 LUMLEY - 50K VIEWS</div>
-<div class="title">📍 Lumley Beach Road Billboard</div>
-<div class="sub">Best spot in Freetown</div>
-<div class="job" id="ad1">Current: <b>Agriverse Green Gold</b><br>Owner: YOU<br>Price: <b style="color:#d97706">$50/month</b><br>Sell to: Orange Money / Africell</div>
-<button class="btn-own" onclick="sellBillboard(1)">💰 SELL THIS BILLBOARD - $50/mo</button>
-</div>
-
-<div class="building billboard">
-<div class="top-tag">⭐ COTTON TREE</div>
-<div class="title">📍 Cotton Tree Billboard</div>
-<div class="sub">Center of City - Everyone sees am</div>
-<div class="job" id="ad2">Current: <b>YOUR AD HERE</b><br>Reach: 1000 players/day<br>Price: <b>$30/month</b></div>
-<button class="btn-own" onclick="sellBillboard(2)">💰 SELL THIS BILLBOARD - $30/mo</button>
-</div>
-
-<div class="building shop">
-<div class="top-tag shop-tag">🏪 FOR SALE</div>
-<div class="title">🏪 Eastern Market Stall</div>
-<div class="sub">Owner: FREE - You can own!</div>
-<div class="job">📦 <b>Rice 50kg</b> Moyamba → East End<br>💰 Reward: <b>$1 + 50 coins</b><br>⛽ Fuel Cost: 20%<br>📏 5km - Short trip</div>
-<button class="btn-deliver" onclick="deliverBag(this,50,1)">🛵 DELIVER NOW</button>
-<button class="btn-own" onclick="buyShop('Eastern')">🏠 BUY THIS SHOP - 5000 coins<br><small>Earn 10% on all deliveries here forever</small></button>
-</div>
-
-<div class="building shop">
-<div class="top-tag shop-tag">🏪 FOR SALE</div>
-<div class="title">🏪 Lumley Agric Shop</div>
-<div class="sub">Owner: FREE</div>
-<div class="job">📦 <b>Cassava 100kg</b> → Aberdeen<br>💰 Reward: <b>$1.5 + 75 coins</b><br>⛽ Fuel Cost: 20%</div>
-<button class="btn-deliver" onclick="deliverBag(this,75,1.5)">🛵 DELIVER NOW</button>
-<button class="btn-own" onclick="buyShop('Lumley')">🏠 BUY THIS SHOP - 5000 coins</button>
-</div>
-
-<div class="building" style="border:2px dashed #94a3b8">
-<div class="title">🏆 Leaderboard</div>
-<div class="job">
-🥇 You - <span id="lbYou">3</span> deliveries<br>
-🥈 Alhaji - 12 deliv - Owns 2 shops<br>
-🥉 Mariatu - 9 deliv<br><br>
-<span style="color:#16a34a;font-weight:700">Top driver gets real jobs first!</span>
-</div>
-</div>
-</div>
-
-<div class="ad-modal" id="adModal">
-<div class="ad-box">
-<h2 style="color:#7c3aed">📺 Advertisement</h2>
-<p style="margin:12px 0;font-weight:700">NP Gas - Full your tank, full your life!</p>
-<div class="timer" id="adTimer">Ad ends in 5s... You earn $0.01</div>
-<button class="btn-deliver" id="adClose" style="display:none" onclick="closeAd()">✅ CLAIM +20% FUEL + $0.01</button>
-<p style="font-size:10px;color:#888;margin-top:10px">1000 views/day = $10/day = $300/mo</p>
-</div>
-</div>
-
+<div class="joystick" id="joy"><div class="stick" id="stick"></div></div>
+<div class="controls"><button class="ctrl-btn" style="background:#0ea5e9;color:white" onclick="buyFuel()">⛽<br>FUEL<br>500c</button><button class="ctrl-btn" style="background:#facc15;color:black" onclick="watchAd()">📺<br>AD<br>+20%</button></div>
+<div class="modal" id="policeModal"><div class="box" style="border-top:6px solid #ef4444">
+<div style="font-size:40px">👮‍♂️🚧</div><h3 style="margin:8px 0">POLICE CHECKPOINT!</h3>
+<p style="font-size:13px;line-height:1.4"><b>"Okada license! Where you dey go? You want go court or you want settle?"</b><br><br>Pay bribe <b>100 coins</b> or try RUN — but if they catch you, <b>-200 coins + 30% fuel!</b></p>
+<div style="display:flex;gap:8px;margin-top:14px"><button class="bribe-btn bribe-pay" onclick="payBribe()">💸 PAY 100c<br><small>Settle</small></button><button class="bribe-btn bribe-run" onclick="runPolice()">🏃 RUN!<br><small>Risky</small></button></div>
+<div style="font-size:10px;color:#64748b;margin-top:8px">Salone reality mode 😂</div>
+</div></div>
+<div class="modal" id="adModal"><div class="box"><h3>📺 Orange Money</h3><p style="margin:10px 0;font-size:13px">Orange Money — Na we money!</p><div id="adTimer" style="background:black;color:#facc15;padding:12px;border-radius:8px;font-weight:900">5s</div><button id="adClose" style="display:none;margin-top:12px" class="btn btn-deliver" onclick="closeAd()">✅ CLAIM +20% FUEL</button></div></div>
 <script>
-let coins=250, dollars=3.5, deliveries=3, fuel=100, land=0;
-function updateUI(){
+const canvas=document.getElementById('game'); const ctx=canvas.getContext('2d');
+let W,H; function resize(){W=canvas.width=window.innerWidth; H=canvas.height=window.innerHeight;} resize(); addEventListener('resize',resize);
+let coins=250,cash=3.5,fuel=100,wanted=false;
+let player={x:500,y:500,angle:0,vx:0,vy:0,wobble:0};
+let keys={x:0,y:0};
+let buildings=[
+ {x:120,y:120,w:130,h:85,color:'#f59e0b',name:'LUMLEY BEACH BILLBOARD',price:50},
+ {x:780,y:100,w:110,h:110,color:'#dc2626',name:'COTTON TREE',type:'center'},
+ {x:80,y:580,w:150,h:95,color:'#16a34a',name:'EASTERN MARKET - KISSY RD',type:'shop'},
+ {x:720,y:620,w:140,h:95,color:'#16a34a',name:'LUMLEY SHOP',type:'shop'},
+ {x:380,y:380,w:120,h:120,color:'#2563eb',name:'CITY HALL - YWCA',type:'hall'},
+];
+let policeChecks=[
+ {x:500,y:480,w:140,h:16,color:'#ef4444',active:true},
+ {x:480,y:100,w:16,h:400,color:'#ef4444',active:true},
+];
+let potholes=[]; for(let i=0;i<25;i++) potholes.push({x:Math.random()*1000,y:400+Math.random()*300,r:8+Math.random()*14});
+let mission={target:{x:835,y:155}, start:{x:155,y:627}, rewardC:50, rewardD:1};
+let particles=[], checkpointCooldown=0;
+function updateHUD(){
+ document.getElementById('cash').innerText=cash.toFixed(2);
  document.getElementById('coins').innerText=coins;
- document.getElementById('dollars').innerText=dollars.toFixed(2);
- document.getElementById('deliv').innerText=deliveries;
- document.getElementById('wEarned').innerText='$'+dollars.toFixed(1);
- document.getElementById('wFuel').innerText=fuel+'%';
- document.getElementById('wLand').innerText=land;
- document.getElementById('lbYou').innerText=deliveries;
- document.getElementById('fuelText').innerText=fuel+'%';
- document.getElementById('fuelFill').style.width=fuel+'%';
+ document.getElementById('fuelT').innerText=Math.floor(fuel)+'%';
+ document.getElementById('fuelF').style.width=fuel+'%';
+ document.getElementById('wantedPill').style.display=wanted?'flex':'none';
+ let d=Math.hypot(mission.target.x-player.x, mission.target.y-player.y);
+ document.getElementById('dist').innerText=Math.floor(d)+'m';
+ let btn=document.getElementById('delBtn');
+ if(d<55){btn.innerText='✅ TAP TO DELIVER!'; btn.style.background='#22c55e';} else {btn.innerText='🏁 DRIVE TO GREEN CIRCLE'; btn.style.background='#94a3b8';}
 }
-function deliverBag(btn,c,d){
- if(fuel<20){alert('⛽ NO FUEL! Watch ad to get fuel. This is how you make money!');return;}
- fuel-=20; coins+=c; dollars+=d; deliveries++;
- updateUI();
- btn.innerText='✅ DELIVERED! +$'+d; btn.style.background='#94a3b8'; btn.disabled=true;
- setTimeout(()=>{btn.parentElement.style.opacity='0.5';},600);
- if(fuel<=10){alert('Fuel low! Watch ad = $0.01 for you');}
+let cam={x:0,y:0};
+function draw(){
+ cam.x+=(player.x - W/2 - cam.x)*0.1;
+ cam.y+=(player.y - H/2 - cam.y)*0.1;
+ ctx.fillStyle='#cbd5e1'; ctx.fillRect(0,0,W,H);
+ ctx.fillStyle='#334155'; ctx.fillRect(0,500 - cam.y,W,140); ctx.fillRect(500 - cam.x,0,140,H);
+ ctx.strokeStyle='#fde047'; ctx.setLineDash([18,18]); ctx.beginPath(); ctx.moveTo(0,570 - cam.y); ctx.lineTo(W,570 - cam.y); ctx.moveTo(570 - cam.x,0); ctx.lineTo(570 - cam.x,H); ctx.stroke(); ctx.setLineDash([]);
+ for(let ph of potholes){let sx=ph.x - cam.x, sy=ph.y - cam.y; if(sx>-50&&sx<W+50&&sy>-50&&sy<H+50){ctx.fillStyle='#1e293b'; ctx.beginPath(); ctx.arc(sx,sy,ph.r,0,6.28); ctx.fill(); ctx.fillStyle='#0f172a'; ctx.beginPath(); ctx.arc(sx+2,sy+2,ph.r*0.5,0,6.28); ctx.fill();}}
+ for(let pc of policeChecks){let sx=pc.x - cam.x, sy=pc.y - cam.y; ctx.fillStyle=pc.active?'#ef4444':'#94a3b8'; ctx.fillRect(sx,sy,pc.w,pc.h); ctx.fillStyle='white'; ctx.font='900 9px system-ui'; ctx.fillText('POLICE',sx+4,sy+10); ctx.fillText('👮',sx+pc.w/2-6,sy-8);}
+ for(let b of buildings){let sx=b.x - cam.x, sy=b.y - cam.y; if(sx>-200&&sx<W+200&&sy>-200&&sy<H+200){ctx.fillStyle=b.color; ctx.fillRect(sx,sy,b.w,b.h); ctx.fillStyle='rgba(0,0,0,.2)'; ctx.fillRect(sx,sy,b.w,6); ctx.fillStyle='white'; ctx.font='900 9px system-ui'; ctx.fillText(b.name,sx+5,sy+15); if(b.price){ctx.fillStyle='#000'; ctx.fillRect(sx+6,sy+22,b.w-12,14); ctx.fillStyle='#facc15'; ctx.font='800 8px system-ui'; ctx.fillText('$'+b.price+'/mo',sx+10,sy+31);}}}
+ let tx=mission.target.x - cam.x, ty=mission.target.y - cam.y;
+ ctx.beginPath(); ctx.arc(tx,ty,42,0,6.28); ctx.fillStyle='rgba(34,197,94,.3)'; ctx.fill(); ctx.strokeStyle='#22c55e'; ctx.lineWidth=3; ctx.stroke();
+ ctx.font='900 22px system-ui'; ctx.fillText('📦',tx-11,ty+7);
+ let px=W/2 + (Math.random()-0.5)*player.wobble, py=H/2 + (Math.random()-0.5)*player.wobble;
+ ctx.save(); ctx.translate(px,py); ctx.rotate(player.angle + (Math.random()-0.5)*player.wobble*0.05);
+ ctx.fillStyle=wanted?'#ef4444':'#16a34a'; ctx.fillRect(-16,-10,32,20);
+ ctx.fillStyle='#fde047'; ctx.beginPath(); ctx.arc(13,0,7,0,6.28); ctx.fill();
+ ctx.fillStyle='#000'; ctx.font='900 10px system-ui'; ctx.fillText('🛵',-10,4);
+ ctx.restore();
+ for(let p of particles){let sx=p.x - cam.x, sy=p.y - cam.y; ctx.fillStyle=p.c||'rgba(0,0,0,'+p.a+')'; ctx.beginPath(); ctx.arc(sx,sy,p.r,0,6.28); ctx.fill();}
+ requestAnimationFrame(loop);
 }
-function buyFuel(){
- if(coins<500){alert('Need 500 coins! Players buy via Orange Money *144#');return;}
- coins-=500; fuel=100; updateUI(); alert('⛽ Full tank!');
+function loop(){
+ if(checkpointCooldown>0) checkpointCooldown--;
+ if(fuel>0 && (keys.x||keys.y)){
+   let power=Math.hypot(keys.x,keys.y); if(power>1){keys.x/=power; keys.y/=power;}
+   player.angle=Math.atan2(keys.y,keys.x);
+   let speedMul=wanted?1.5:1;
+   player.vx+=keys.x*0.42*speedMul; player.vy+=keys.y*0.42*speedMul;
+   fuel-=0.05*power; if(fuel<0)fuel=0;
+   if(Math.random()<0.15) particles.push({x:player.x - Math.cos(player.angle)*16, y:player.y - Math.sin(player.angle)*16, r:2+Math.random()*2, a:0.35});
+ }
+ player.vx*=0.95; player.vy*=0.95;
+ player.x+=player.vx; player.y+=player.vy;
+ player.x=Math.max(0,Math.min(1000,player.x)); player.y=Math.max(0,Math.min(1000,player.y));
+ if(player.wobble>0) player.wobble-=0.8;
+ for(let ph of potholes){let dx=player.x-ph.x, dy=player.y-ph.y; if(Math.hypot(dx,dy)<ph.r+12 && Math.hypot(player.vx,player.vy)>1){player.wobble=12; player.vx*=0.5; player.vy*=0.5; particles.push({x:player.x,y:player.y,r:4,a:0.6,c:'#f59e0b'});}}
+ if(!wanted && checkpointCooldown==0){
+   for(let pc of policeChecks){if(player.x>pc.x-20&&player.x<pc.x+pc.w+20&&player.y>pc.y-20&&player.y<pc.y+pc.h+20){triggerPolice(); break;}}
+ }
+ for(let p of particles){p.a-=0.02; p.r+=0.12;} particles=particles.filter(p=>p.a>0);
+ updateHUD(); draw();
 }
-function watchAd(){
- document.getElementById('adModal').style.display='flex';
- let sec=5;
- let t=setInterval(()=>{
-  sec--; document.getElementById('adTimer').innerText='Ad ends in '+sec+'s... You earn $0.01';
-  if(sec<=0){clearInterval(t); document.getElementById('adTimer').innerText='✅ Ad Finished! Claim $0.01'; document.getElementById('adClose').style.display='block';}
- },1000);
+draw();
+function triggerPolice(){document.getElementById('policeModal').style.display='flex';}
+function payBribe(){if(coins<100){alert('You no get 100 coins! Try run!');return;} coins-=100; document.getElementById('policeModal').style.display='none'; checkpointCooldown=300; updateHUD();}
+function runPolice(){document.getElementById('policeModal').style.display='none'; if(Math.random()<0.55){wanted=true; document.getElementById('policeModal').style.display='none'; alert('🚨 POLICE DEY CHASE YOU! Run 5 seconds!'); setTimeout(()=>{wanted=false; coins=Math.max(0,coins-200); fuel=Math.max(0,fuel-30); alert('Caught! -200 coins, -30% fuel! Next time pay! 😂'); updateHUD();},5000);} else {alert('🏃 You ESCAPE! Sharp okada man!'); checkpointCooldown=300;} checkpointCooldown=200;}
+const joy=document.getElementById('joy'); const stick=document.getElementById('stick'); let active=false, origin={x:0,y:0};
+function sStart(e){active=true; let t=e.touches?e.touches[0]:e; let r=joy.getBoundingClientRect(); origin={x:r.left+r.width/2,y:r.top+r.height/2};}
+function sMove(e){if(!active)return; let t=e.touches?e.touches[0]:e; let dx=t.clientX-origin.x, dy=t.clientY-origin.y; let d=Math.hypot(dx,dy); let max=44; if(d>max){dx=dx/d*max; dy=dy/d*max;} stick.style.transform=`translate(calc(-50% + ${dx}px), calc(-50% + ${dy}px))`; keys.x=dx/max; keys.y=dy/max;}
+function sEnd(){active=false; stick.style.transform='translate(-50%,-50%)'; keys.x=0; keys.y=0;}
+joy.addEventListener('touchstart',sStart); joy.addEventListener('touchmove',sMove); joy.addEventListener('touchend',sEnd);
+joy.addEventListener('mousedown',sStart); addEventListener('mousemove',sMove); addEventListener('mouseup',sEnd);
+function completeMission(){
+ let d=Math.hypot(mission.target.x-player.x, mission.target.y-player.y); if(d>55){alert('Drive to green circle! Use joystick left side');return;}
+ coins+=mission.rewardC; cash+=mission.rewardD; for(let i=0;i<25;i++) particles.push({x:player.x,y:player.y,r:3+Math.random()*4,a:0.9,c:'#22c55e'});
+ let shops=buildings.filter(b=>b.type=='shop'); let cents=buildings.filter(b=>b.type=='center');
+ let s=shops[Math.floor(Math.random()*shops.length)]; let t=cents[Math.floor(Math.random()*cents.length)];
+ mission.target={x:t.x+t.w/2,y:t.y+t.h/2}; mission.rewardC=50+Math.floor(Math.random()*60); mission.rewardD=0.8+Math.random()*0.7;
+ let items=['Rice','Cassava','Fish','Palm Oil','Garri','Pepper']; let it=items[Math.floor(Math.random()*items.length)];
+ document.getElementById('jobName').innerText=it+' 50kg - '+s.name.split(' - ')[0]+' → '+t.name;
+ document.getElementById('reward').innerText='$'+mission.rewardD.toFixed(2)+' + '+mission.rewardC+'c';
+ if(fuel<20) alert('Fuel low! Watch ad for Orange Money!');
 }
-function closeAd(){
- document.getElementById('adModal').style.display='none';
- document.getElementById('adClose').style.display='none';
- fuel=Math.min(100,fuel+20); dollars+=0.01; updateUI();
-}
-function sellBillboard(id){
- let comp=prompt('Enter company: Orange Money, Africell, NP Gas');
- if(comp){ document.getElementById('ad'+id).innerHTML='✅ SOLD to <b>'+comp+'</b><br>$'+(id==1?50:30)+'/mo PAID'; dollars+=(id==1?50:30); updateUI(); alert('Sold to '+comp+'! Screenshot this for pitch');}
-}
-function buyShop(a){ if(coins<5000){alert('Need 5000 coins! = Le50k Orange Money');return;} coins-=5000; land++; updateUI(); alert('You OWN '+a+'! You are landlord now!');}
-updateUI();
+function buyFuel(){if(coins<500){alert('Need 500c! Earn by delivering');return;} coins-=500; fuel=100; updateHUD();}
+function watchAd(){document.getElementById('adModal').style.display='flex'; let sec=5; let iv=setInterval(()=>{sec--; document.getElementById('adTimer').innerText=sec+'s - Orange Money ad'; if(sec<=0){clearInterval(iv); document.getElementById('adTimer').innerText='✅ Done!'; document.getElementById('adClose').style.display='block';}},1000);}
+function closeAd(){document.getElementById('adModal').style.display='none'; document.getElementById('adClose').style.display='none'; fuel=Math.min(100,fuel+20); cash+=0.01; updateHUD();}
+updateHUD();
 </script>
 </body>
 </html>
