@@ -1,81 +1,98 @@
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-<title>GTA FREETOWN v7 - NIGHT EDITION</title>
+<title>FREETOWN CITY V9 - AGRIVERSE METAVERSE 4K</title>
 <style>
-*{margin:0;padding:0;box-sizing:border-box;touch-action:none;font-family:'Segoe UI',system-ui;font-weight:800}
-body{background:#020617;overflow:hidden;height:100vh;height:100dvh;color:white}
-#game{position:absolute;inset:0}
-.topbar{position:absolute;top:0;left:0;right:0;z-index:20;display:flex;justify-content:space-between;padding:6px 8px;pointer-events:none}
-.stat{background:rgba(0,0,0,.7);padding:5px 9px;border-radius:12px;font-size:11px;border:1px solid rgba(255,255,255,.15);display:flex;align-items:center;gap:5px}
-.wanted{color:#facc15;letter-spacing:2px}
-.mission{position:absolute;top:48px;left:8px;right:120px;background:rgba(255,255,255,.95);color:black;border-radius:12px;padding:8px 10px;z-index:10;border-left:5px solid #16a34a}
-.minimap{position:absolute;top:6px;right:6px;width:98px;height:98px;background:rgba(0,0,0,.85);border:2px solid rgba(255,255,255,.3);border-radius:10px;z-index:15;overflow:hidden}
-.joystick{position:absolute;bottom:18px;left:14px;width:115px;height:115px;background:rgba(255,255,255,.08);border:2px solid rgba(255,255,255,.2);border-radius:50%;z-index:20}
-.stick{position:absolute;top:50%;left:50%;width:48px;height:48px;background:white;border-radius:50%;transform:translate(-50%,-50%)}
-.rightCtrls{position:absolute;bottom:18px;right:10px;z-index:20;display:flex;flex-direction:column;gap:8px}
-.cbtn{width:58px;height:58px;border-radius:50%;border:none;font-weight:900;font-size:9px}
-.modal{position:fixed;inset:0;background:rgba(0,0,0,.88);display:none;justify-content:center;align-items:center;z-index:100;padding:18px}.box{background:white;color:black;padding:18px;border-radius:18px;text-align:center;width:100%;max-width:340px}
-.speedo{position:absolute;bottom:145px;right:12px;background:rgba(0,0,0,.7);padding:6px 10px;border-radius:20px;font-size:11px;z-index:15;border:1px solid rgba(255,255,255,.2)}
+*{margin:0;padding:0;box-sizing:border-box;font-family:system-ui;font-weight:900}
+body{background:#020617;overflow:hidden;height:100dvh;touch-action:none}
+canvas{display:block}
+.ui{position:fixed;left:0;right:0;z-index:20;pointer-events:none}
+.top{top:0;display:flex;justify-content:space-between;padding:6px}
+.stat{background:rgba(0,0,0,.8);backdrop-filter:blur(10px);padding:6px 10px;border-radius:14px;font-size:11px;color:#fff;border:1px solid #ffffff22}
+.joy{position:fixed;bottom:18px;left:14px;width:120px;height:120px;background:rgba(255,255,255,.08);border:2px solid #ffffff22;border-radius:50%;z-index:20}
+.stick{position:absolute;top:50%;left:50%;width:52px;height:52px;background:radial-gradient(white,#e2e8f0);border-radius:50%;transform:translate(-50%,-50%)}
+.right{position:fixed;bottom:18px;right:10px;z-index:20;display:flex;flex-direction:column;gap:8px}
+.b{width:60px;height:60px;border-radius:50%;border:none;font-size:18px}
+#load{position:fixed;inset:0;z-index:99;background:radial-gradient(#1e293b,#020617);display:flex;flex-direction:column;justify-content:end;padding:20px}
 </style>
+<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js"}}</script>
 </head>
 <body>
-<canvas id="game"></canvas>
-<div class="topbar">
-<div style="display:flex;gap:6px"><div class="stat">❤️ <span id="health">100</span> 🛡️ <span id="armor">50</span></div><div class="stat wanted" id="wantedStars">☆☆☆☆☆</div></div>
-<div style="display:flex;gap:6px"><div class="stat">💰 $<span id="cash">154620</span></div><div class="stat" style="color:#4ade80">🌴 LUMLEY</div></div>
+<div id="load">
+<h1 style="font-size:36px;color:#facc15">FREETOWN CITY V9</h1>
+<div style="color:#fff;letter-spacing:3px;font-size:11px">4K • THREE.JS • CROPCore FARM • META RAY-BAN READY</div>
+<div style="color:#4ade80;font-size:10px;margin-top:6px">LUMLEY BEACH + CITY + FARM METAVERSE</div>
+<button onclick="start()" style="margin-top:14px;padding:16px;background:#facc15;border:none;border-radius:14px;width:100%;font-size:16px">🛵 ENTER V9 3D CITY</button>
 </div>
-<div class="minimap"><canvas id="mini" width="98" height="98"></canvas></div>
-<div class="mission">
-<div style="display:flex;justify-content:space-between;font-size:12px"><b>📦 <span id="jobName">Deliver Fish - Lumley → Cotton Tree</span></b><span id="dist" style="color:#16a34a">0m</span></div>
-<div style="font-size:10px;color:#475569">🚗 Traffic • 👮 Police • 🌃 Night • ⛽ <span id="fuelT">100%</span></div>
-<button id="delBtn" onclick="completeMission()" style="width:100%;padding:9px;margin-top:5px;border:none;border-radius:10px;background:#16a34a;color:white;font-weight:900;font-size:11px">🏁 DRIVE TO GREEN</button>
-</div>
-<div class="speedo">🛵 <span id="speed">0</span> KPH | ⛽ <span id="fuelBar">████</span></div>
-<div class="joystick" id="joy"><div class="stick" id="stick"></div></div>
-<div class="rightCtrls">
-<div style="display:flex;gap:6px"><button class="cbtn" style="background:#facc15" onclick="honk()">🔊<br>HORN</button><button class="cbtn" style="background:#38bdf8;color:white" onclick="buyFuel()">⛽<br>FUEL</button></div>
-<div style="display:flex;gap:6px"><button class="cbtn" style="background:#ef4444;color:white" onclick="toggleWanted()">🚨<br>WANTED</button><button class="cbtn" style="background:#22c55e;color:white" onclick="watchAd()">📺<br>AD</button></div>
-</div>
-<div class="modal" id="policeModal"><div class="box" style="border-top:6px solid #ef4444"><div style="font-size:36px">🚔💡👮‍♂️</div><h3>SLP CHECKPOINT @ NIGHT!</h3><p style="font-size:12px;margin:8px 0">"Okada! Night operation! Reflector? License? 100c or station!"<br><br>Siren dey flash! 🚨</p><div style="display:flex;gap:8px;margin-top:12px"><button style="flex:1;padding:13px;background:#ef4444;color:white;border:none;border-radius:12px;font-weight:900" onclick="payBribe()">💸 PAY 100c</button><button style="flex:1;padding:13px;background:#020617;color:white;border:none;border-radius:12px;font-weight:900" onclick="runPolice()">🏃 RUN NIGHT!</button></div></div></div>
-<div class="modal" id="adModal"><div class="box"><h3>📺 Africell / Orange</h3><div id="adTimer" style="background:black;color:#facc15;padding:10px;border-radius:8px;margin:8px 0">5s</div><button id="adClose" style="display:none;width:100%;padding:10px;background:#16a34a;color:white;border:none;border-radius:10px" onclick="closeAd()">✅ CLAIM</button></div></div>
-<script>
-const canvas=document.getElementById('game');const ctx=canvas.getContext('2d');const mini=document.getElementById('mini');const mctx=mini.getContext('2d');let W,H;function resize(){W=canvas.width=innerWidth;H=canvas.height=innerHeight}resize();addEventListener('resize',resize);
-let coins=1250,cash=154620,fuel=100,health=100,armor=50,wantedLevel=0,wanted=false;
-let player={x:600,y:700,angle:0,vx:0,vy:0,wobble:0,speed:0};let keys={x:0,y:0};let sirenBlink=0;
-let buildings=[{x:450,y:60,w:120,h:70,color:'#ff6a00',name:'Orange Money',glow:'#ff6a00'},{x:700,y:70,w:130,h:75,color:'#a855f7',name:'africell',glow:'#a855f7'},{x:500,y:280,w:140,h:90,color:'#334155',name:'SIERRA PALMS',type:'shop'},{x:480,y:520,w:130,h:80,color:'#334155',name:'COLA BAR',type:'shop'}];
-let traffic=[];for(let i=0;i<8;i++) traffic.push({x:300+Math.random()*200,y:Math.random()*1000,angle:Math.PI/2, speed:0.8+Math.random()*1.2, color:['#facc15','#38bdf8','#f87171','#4ade80'][Math.floor(Math.random()*4)], type:Math.random()<0.3?'keke':'car'});
-let policeCars=[{x:200,y:400,angle:0,vx:0,vy:0,active:false}];
-let policeChecks=[{x:350,y:480,w:150,h:20},{x:480,y:80,w:20,h:420}];
-let potholes=[];for(let i=0;i<22;i++) potholes.push({x:270+Math.random()*140,y:Math.random()*1200,r:7+Math.random()*10});
-let palmTrees=[];for(let i=0;i<40;i++) palmTrees.push({x:170+Math.random()*90,y:Math.random()*1200,scale:0.7+Math.random()*0.7});
-let streetLights=[];for(let i=0;i<30;i++) streetLights.push({x:430,y:i*80+20});
-let mission={target:{x:900,y:150},rewardC:80,rewardD:2.5};let particles=[],cooldown=0;
-function drawPalm(x,y,s,shadow=false){if(shadow){ctx.fillStyle='rgba(0,0,0,.4)';ctx.beginPath();ctx.ellipse(x+12*s,y+16*s,20*s,7*s,0,0,6.28);ctx.fill();return}ctx.fillStyle='#3f2a14';ctx.fillRect(x-3*s,y-10*s,6*s,22*s);ctx.fillStyle='#15803d';for(let a=0;a<6;a++){let ang=a*Math.PI/3;ctx.beginPath();ctx.ellipse(x+Math.cos(ang)*13*s,y-14*s+Math.sin(ang)*4*s,14*s,5*s,ang,0,6.28);ctx.fill();}}
-function updateHUD(){
- document.getElementById('cash').innerText=cash;document.getElementById('fuelT').innerText=Math.floor(fuel)+'%';document.getElementById('fuelBar').innerText='█'.repeat(Math.max(0,Math.floor(fuel/15)));
- document.getElementById('speed').innerText=Math.floor(player.speed*18);let stars='';for(let i=0;i<5;i++) stars+= i<wantedLevel?'★':'☆';document.getElementById('wantedStars').innerText=stars;
- let d=Math.hypot(mission.target.x-player.x,mission.target.y-player.y);document.getElementById('dist').innerText=Math.floor(d)+'m';
- let b=document.getElementById('delBtn');if(d<60){b.innerText='✅ DELIVER!';b.style.background='#22c55e';}else{b.innerText='🏁 DRIVE TO GREEN';b.style.background='#334155';}
+
+<div class="ui top"><div style="display:flex;gap:6px"><div class="stat">❤️100 | ⛽<span id="fuel">100%</span></div><div class="stat" style="color:#facc15">☆☆☆☆☆</div></div><div style="display:flex;gap:6px"><div class="stat">💰 $<span id="cash">154620</span></div><div class="stat" style="background:#16a34a">CropCore</div></div></div>
+<div class="ui" style="top:48px;left:8px;right:8px;background:#fffffff2;color:#000;border-radius:12px;padding:8px;border-left:5px solid #16a34a;font-size:11px"><b id="job">📦 Deliver Seeds to Farm</b> <span id="dist" style="float:right;color:#16a34a">0m</span></div>
+<div class="joy" id="joy"><div class="stick" id="stick"></div></div>
+<div class="right"><button class="b" style="background:#facc15" onclick="toggleView()">👁️</button><button class="b" style="background:#22c55e;color:#fff" onclick="fuel=100">⛽</button></div>
+
+<script type="module">
+import * as THREE from 'three';
+let scene,camera,renderer,player,ground,target; let keys={x:0,y:0}, fuel=100, cash=154620; let traffic=[], buildings=[];
+let camDist=24, camHeight=14, third=true;
+
+function init(){
+scene=new THREE.Scene(); scene.background=new THREE.Color(0x87CEEB); scene.fog=new THREE.Fog(0x87CEEB,90,280);
+camera=new THREE.PerspectiveCamera(70, innerWidth/innerHeight,0.1,1000);
+renderer=new THREE.WebGLRenderer({antialias:true}); renderer.setSize(innerWidth,innerHeight); renderer.setPixelRatio(Math.min(devicePixelRatio,2)); renderer.shadowMap.enabled=true;
+document.body.appendChild(renderer.domElement);
+scene.add(new THREE.AmbientLight(0xffffff,0.75));
+let sun=new THREE.DirectionalLight(0xffffff,1.2); sun.position.set(60,80,20); sun.castShadow=true; scene.add(sun);
+
+// GROUND - 400x400
+ground=new THREE.Mesh(new THREE.PlaneGeometry(500,500), new THREE.MeshStandardMaterial({color:0x16213e})); ground.rotation.x=-Math.PI/2; ground.receiveShadow=true; scene.add(ground);
+// Sand + Road + Sea - HD
+let sand=new THREE.Mesh(new THREE.PlaneGeometry(90,500), new THREE.MeshStandardMaterial({color:0xFDE68A})); sand.rotation.x=-Math.PI/2; sand.position.set(-110,0.1,0); scene.add(sand);
+let road=new THREE.Mesh(new THREE.PlaneGeometry(44,500), new THREE.MeshStandardMaterial({color:0x0F172A})); road.rotation.x=-Math.PI/2; road.position.set(-40,0.2,0); scene.add(road);
+let sea=new THREE.Mesh(new THREE.PlaneGeometry(140,500), new THREE.MeshStandardMaterial({color:0x0A1931})); sea.rotation.x=-Math.PI/2; sea.position.set(-200,0.05,0); scene.add(sea);
+
+// BUILDINGS
+function b(x,z,w,h,c){ let m=new THREE.Mesh(new THREE.BoxGeometry(w,h,w), new THREE.MeshStandardMaterial({color:c})); m.position.set(x,h/2,z); m.castShadow=true; scene.add(m); buildings.push(m); }
+b(25,10,14,22,0xFF6A00); b(45,-20,12,18,0xA855F7); b(0,-50,16,14,0x334155); b(10,-80,12,20,0x1e293b); // Orange, Africell, etc
+
+// CROPCore FARM PATCH - 4K style
+let farmGround=new THREE.Mesh(new THREE.PlaneGeometry(80,80), new THREE.MeshStandardMaterial({color:0x3f6212})); farmGround.rotation.x=-Math.PI/2; farmGround.position.set(60,0.15,60); farmGround.receiveShadow=true; scene.add(farmGround);
+for(let i=0;i<60;i++){ let crop=new THREE.Mesh(new THREE.BoxGeometry(0.6,2+Math.random()*1.5,0.6), new THREE.MeshStandardMaterial({color:0x4ADE80})); crop.position.set(35+Math.random()*50,1,35+Math.random()*50); crop.castShadow=true; scene.add(crop); }
+
+// PALMS
+for(let i=0;i<35;i++){ let trunk=new THREE.Mesh(new THREE.CylinderGeometry(0.3,0.5,6,6), new THREE.MeshStandardMaterial({color:0x3F2A14})); let x=-70-Math.random()*60, z=(Math.random()-0.5)*400; trunk.position.set(x,3,z); scene.add(trunk); let leaf=new THREE.Mesh(new THREE.SphereGeometry(1.7,6,6), new THREE.MeshStandardMaterial({color:0x15803D})); leaf.position.set(x,6.4,z); scene.add(leaf); }
+
+// TRAFFIC
+for(let i=0;i<16;i++){ let car=new THREE.Mesh(new THREE.BoxGeometry(2.6,1.6,4.8), new THREE.MeshStandardMaterial({color:[0xFACC15,0x38BDF8,0xF87171,0x4ADE80][i%4]})); car.position.set(-40+(Math.random()-0.5)*6,0.9,(Math.random()-0.5)*350); car.castShadow=true; scene.add(car); traffic.push({m:car,s:0.35+Math.random()*0.9}); }
+
+// PLAYER OKADA
+player=new THREE.Group(); let bike=new THREE.Mesh(new THREE.BoxGeometry(1.2,1,2.2), new THREE.MeshStandardMaterial({color:0xFACC15})); bike.position.y=0.9; bike.castShadow=true; player.add(bike); let light=new THREE.SpotLight(0xFEF08A,10,50,0.6); light.position.set(0,0.9,1.3); light.target.position.set(0,0,10); player.add(light); player.add(light.target); player.position.set(-40,0,80); scene.add(player);
+
+// TARGET GREEN
+target=new THREE.Mesh(new THREE.RingGeometry(3.5,4.5,32), new THREE.MeshBasicMaterial({color:0x22C55E,side:THREE.DoubleSide})); target.rotation.x=-Math.PI/2; target.position.set(60,0.2,60); scene.add(target);
+animate();
 }
-let cam={x:0,y:0};
-function draw(){
- sirenBlink+=0.25;cam.x+=(player.x - W/2 - cam.x)*0.08;cam.y+=(player.y - H/2 - cam.y)*0.08;
- ctx.fillStyle='#020617';ctx.fillRect(0,0,W,H);for(let i=0;i<60;i++){let sx=(i*137)%W,sy=(i*59)%(H*0.4);ctx.fillStyle='rgba(255,255,255,'+(0.3+Math.random()*0.4)+')';ctx.fillRect(sx,sy,1,1);}
- let oX=0 - cam.x;ctx.fillStyle='#0a192f';ctx.fillRect(oX,-1200 - cam.y,155,3500);ctx.fillStyle='#1a1a2e';ctx.fillRect(155 - cam.x,-1200 - cam.y,115,3500);
- ctx.fillStyle='#0f172a';ctx.fillRect(270 - cam.x,-1200 - cam.y,145,3500);ctx.strokeStyle='rgba(250,204,21,0.6)';ctx.setLineDash([22,22]);ctx.beginPath();ctx.moveTo(342 - cam.x,-1200 - cam.y);ctx.lineTo(342 - cam.x,2300 - cam.y);ctx.stroke();ctx.setLineDash([]);
- for(let ph of potholes){let sx=ph.x - cam.x,sy=ph.y - cam.y;ctx.fillStyle='#020617';ctx.beginPath();ctx.arc(sx,sy,ph.r,0,6.28);ctx.fill();ctx.fillStyle='rgba(125,211,252,0.3)';ctx.beginPath();ctx.arc(sx,sy,ph.r*0.5,0,6.28);ctx.fill();}
- for(let sl of streetLights){let sx=sl.x - cam.x,sy=sl.y - cam.y;if(sy>-100&&sy<H+100){ctx.fillStyle='rgba(251,191,36,0.25)';ctx.beginPath();ctx.arc(sx,sy,35,0,6.28);ctx.fill();ctx.fillStyle='#fbbf24';ctx.beginPath();ctx.arc(sx,sy,4,0,6.28);ctx.fill();}}
- for(let pt of palmTrees){let sx=pt.x - cam.x,sy=pt.y - cam.y;if(sx>-100&&sx<W+100&&sy>-100&&sy<H+100){drawPalm(sx,sy,pt.scale,true);drawPalm(sx,sy,pt.scale,false);}}
- for(let pc of policeChecks){let sx=pc.x - cam.x,sy=pc.y - cam.y;ctx.fillStyle=sirenBlink%2<1?'#ef4444':'#3b82f6';ctx.fillRect(sx,sy,pc.w,pc.h);}
- for(let b of buildings){let sx=b.x - cam.x,sy=b.y - cam.y;if(sx>-200&&sx<W+200&&sy>-200&&sy<H+200){ctx.fillStyle='rgba(0,0,0,.5)';ctx.fillRect(sx+5,sy+5,b.w,b.h);ctx.fillStyle=b.color;ctx.fillRect(sx,sy,b.w,b.h);for(let wx=0;wx<3;wx++)for(let wy=0;wy<2;wy++){let on=Math.random()<0.7;ctx.fillStyle=on?'#fde047':'#1e293b';ctx.fillRect(sx+8+wx*28,sy+18+wy*20,18,12);}if(b.glow){ctx.shadowColor=b.glow;ctx.shadowBlur=20;ctx.fillStyle=b.glow;ctx.fillRect(sx,sy-8,b.w,10);ctx.shadowBlur=0;ctx.fillStyle='white';ctx.font='900 10px system-ui';ctx.fillText(b.name,sx+4,sy-2);}else{ctx.fillStyle='white';ctx.font='800 8px system-ui';ctx.fillText(b.name,sx+4,sy+10);}}}
- for(let t of traffic){let sx=t.x - cam.x,sy=t.y - cam.y;ctx.save();ctx.translate(sx,sy);ctx.rotate(t.angle);ctx.fillStyle=t.color;if(t.type==='keke'){ctx.fillRect(-10,-8,20,14);ctx.fillStyle='#facc15';ctx.fillRect(8,-4,4,8);}else{ctx.fillRect(-14,-7,28,14);}ctx.fillStyle='#fef08a';ctx.fillRect(12,-5,3,2);ctx.fillRect(12,3,3,2);ctx.fillStyle='#ef4444';ctx.fillRect(-14,-4,2,2);ctx.fillRect(-14,2,2,2);ctx.restore();}
- for(let p of policeCars){if(!p.active)continue;let sx=p.x - cam.x,sy=p.y - cam.y;ctx.save();ctx.translate(sx,sy);ctx.rotate(p.angle);ctx.fillStyle=sirenBlink%2<1?'#ef4444':'#3b82f6';ctx.fillRect(-16,-9,32,18);ctx.fillStyle='white';ctx.fillRect(-6,-11,12,4);ctx.fillStyle='#fef08a';ctx.fillRect(14,-5,3,2);ctx.fillRect(14,3,3,2);ctx.restore();}
- let tx=mission.target.x - cam.x,ty=mission.target.y - cam.y;ctx.beginPath();ctx.arc(tx,ty,42,0,6.28);ctx.fillStyle='rgba(34,197,94,.25)';ctx.fill();ctx.strokeStyle='#22c55e';ctx.lineWidth=3;ctx.setLineDash([6,4]);ctx.stroke();ctx.setLineDash([]);ctx.font='900 26px system-ui';ctx.fillText('📦',tx-13,ty+9);
- let px=W/2+(Math.random()-0.5)*player.wobble,py=H/2+(Math.random()-0.5)*player.wobble;ctx.save();ctx.translate(px,py);ctx.rotate(player.angle);
- ctx.fillStyle='rgba(254,240,138,0.18)';ctx.beginPath();ctx.moveTo(12,0);ctx.lineTo(90,-35);ctx.lineTo(90,35);ctx.closePath();ctx.fill();
- ctx.fillStyle='rgba(0,0,0,.4)';ctx.beginPath();ctx.ellipse(0,14,18,7,0,0,6.28);ctx.fill();
- ctx.fillStyle=wanted?'#ef4444':'#22c55e';ctx.fillRect(-14,-9,28,18);ctx.fillStyle='#facc15';ctx.beginPath();ctx.arc(12,0,6,0,6.28);ctx.fill();ctx.restore();
- for(let ptl of particles){let sx=ptl.x - cam.x,sy=ptl.y - cam.y;ctx.fillStyle=ptl.c;ctx.beginPath();ctx.arc(sx,sy,ptl.r,0,6.28);ctx.fill();}
- mctx.fillStyle='#020617'
+let vx=0,vz=0;
+function animate(){ requestAnimationFrame(animate);
+let sp=0.4; if(keys.x||keys.y){ let l=Math.hypot(keys.x,keys.y); if(l>1){keys.x/=l; keys.y/=l;} vx+=keys.x*sp*0.12; vz+=keys.y*sp*0.12; player.rotation.y=Math.atan2(vx,vz); fuel=Math.max(0,fuel-0.02*l); }
+vx*=0.91; vz*=0.91; player.position.x+=vx; player.position.z+=vz;
+for(let t of traffic){ t.m.position.z+=t.s; if(t.m.position.z>200) t.m.position.z=-200; }
+let tp=new THREE.Vector3(player.position.x - Math.sin(player.rotation.y)*camDist, camHeight, player.position.z - Math.cos(player.rotation.y)*camDist);
+camera.position.lerp(tp,0.08); camera.lookAt(player.position.x,player.position.y+2,player.position.z);
+let d=player.position.distanceTo(target.position); document.getElementById('dist').innerText=Math.floor(d)+'m'; document.getElementById('fuel').innerText=Math.floor(fuel)+'%';
+if(d<9){ cash+=10; document.getElementById('cash').innerText=cash; target.position.set((Math.random()-0.5)*80,0.2,(Math.random()-0.5)*250); document.getElementById('job').innerText='✅ Delivered! Next Farm'; setTimeout(()=>{document.getElementById('job').innerText='📦 Deliver to CropCore Farm';},1000); }
+renderer.render(scene,camera);
+}
+window.start=()=>{ document.getElementById('load').style.display='none'; init(); };
+window.toggleView=()=>{ camDist=camDist>15?8:24; camHeight=camHeight>10?4:14; };
+addEventListener('resize',()=>{ if(camera&&renderer){ camera.aspect=innerWidth/innerHeight; camera.updateProjectionMatrix(); renderer.setSize(innerWidth,innerHeight); }});
+const joy=document.getElementById('joy'), stick=document.getElementById('stick'); let act=false,o={x:0,y:0};
+function ss(e){ act=true; let r=joy.getBoundingClientRect(); let t=e.touches?e.touches[0]:e; o={x:r.left+r.width/2,y:r.top+r.height/2}; }
+function sm(e){ if(!act) return; let t=e.touches?e.touches[0]:e; let dx=t.clientX-o.x, dy=t.clientY-o.y; let d=Math.hypot(dx,dy), mx=46; if(d>mx){dx=dx/d*mx; dy=dy/d*mx;} stick.style.transform=`translate(calc(-50% + ${dx}px), calc(-50% + ${dy}px))`; keys.x=dx/mx; keys.y=-dy/mx; }
+function se(){ act=false; stick.style.transform='translate(-50%,-50%)'; keys.x=0; keys.y=0; }
+joy.addEventListener('touchstart',ss,{passive:false}); joy.addEventListener('touchmove',sm,{passive:false}); joy.addEventListener('touchend',se);
+joy.addEventListener('mousedown',ss); addEventListener('mousemove',sm); addEventListener('mouseup',se);
+</script>
+</body>
+</html>
