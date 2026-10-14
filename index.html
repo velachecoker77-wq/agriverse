@@ -1,94 +1,53 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Agriverse - Green Gold Pro | Sierra Leone - World</title>
-<meta name="theme-color" content="#16a34a">
-<link rel="manifest" href="data:application/json;base64,eyJuYW1lIjoiQWdyaXZlcnNlIn0=">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>Agriverse - Green Gold Pro | SIERRA LEONE</title>
 <style>
-*{box-sizing:border-box}body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto;background:#f7fee7;color:#111;padding-bottom:90px}
-.top{background:linear-gradient(135deg,#16a34a,#065f46);color:#fff;padding:12px 16px;position:sticky;top:0;z-index:20}
-.card{background:#fff;border-radius:16px;padding:14px;margin:12px auto;max-width:900px;box-shadow:0 1px 12px rgba(0,0,0,.08);border:1px solid #e5e7eb}
-.btn{width:100%;padding:14px;border:none;border-radius:12px;background:#16a34a;color:#fff;font-weight:900;font-size:16px}
-.btn-light{padding:8px 10px;border-radius:8px;border:1px solid #16a34a;background:#f0fdf4;color:#16a34a;font-weight:700;font-size:12px}
-input,select,textarea{width:100%;padding:12px;border:1px solid #d1d5db;border-radius:10px;margin:6px 0}
-.bag{background:#ffff;border-radius:12px;padding:10px;border:1px solid #ddd;margin:8px 0}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.install{background:#022c22;color:#fff;padding:10px;border-radius:12px;display:flex;justify-content:space-between;align-items:center;margin:12px auto;max-width:900px}
+*{margin:0;padding:0;box-sizing:border-box;font-family:system-ui;font-weight:700}
+body{background:#e8efdb;color:#1a2e05;padding:8px}
+.h{background:#0f2e0f;color:#fff;padding:10px 12px;border-radius:12px 12px 0 0;border-bottom:4px solid #facc15}
+.btn{border:none;padding:8px 12px;border-radius:20px;font-size:12px}
+.card{background:#fff;border-radius:14px;padding:14px;margin:10px 0;box-shadow:0 2px 8px #0001}
+.in{width:100%;padding:14px;margin:6px 0;border:1px solid #d1d5db;border-radius:12px;font-size:14px;background:#fff}
+.save{width:100%;background:#16a34a;color:#fff;padding:16px;border:none;border-radius:12px;font-size:16px;margin-top:8px}
+.new{width:100%;background:#facc15;color:#000;text-align:center;padding:10px;border-radius:10px;margin:8px 0;font-size:13px;display:block;text-decoration:none}
 </style>
 </head>
 <body>
-<div class="top">
-<b>🌾 Agriverse - Green Gold Pro</b><br>
-<small>SIERRA LEONE - AFRICA - WORLD | Moyamba pilot 20 farms | Offline First | 1 Bag = 1 Dollar dream</small>
-<div style="margin-top:8px;display:flex;gap:6px;flex-wrap:wrap">
-<button class="btn-light" onclick="document.getElementById('addBag').scrollIntoView({behavior:'smooth'})">📦 Product Info</button>
-<button class="btn-light" onclick="document.getElementById('bagList').scrollIntoView({behavior:'smooth'})">📍 Place / UpCountry</button>
-<button class="btn-light" onclick="location.href='city.html'">🗺️ City / Delivery</button>
-<button class="btn-light" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">📞 Contact / WhatsApp</button>
-<button class="btn-light" onclick="exportCSV()">📤 Export CSV</button>
-<button class="btn-light" onclick="shareWA()">💬 Share on WhatsApp</button>
+
+<div class="h">
+<div style="font-size:18px">🌱 Agriverse - Green Gold Pro</div>
+<div style="font-size:11px">SIERRA LEONE - AFRICA - WORLD | Moyamba pilot 20 farms | Offline First | 1 Bag = 1 Dollar dream</div>
+<div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:8px">
+<button class="btn" style="background:#fde047">📦 Product Info</button>
+<button class="btn" style="background:#bbf7d0">📍 Place / Quantity</button>
+<button class="btn" style="background:#bfdbfe">🏙️ City / Delivery</button>
+<button class="btn" style="background:#fecaca">📞 Contact</button>
+<button class="btn" style="background:#fff">📤 Export CSV</button>
+<button class="btn" style="background:#22c55e;color:#fff">🔗 Share WhatsApp</button>
 </div>
 </div>
 
-<!-- CITY BUTTON - CORRECT PLACE HERE -->
-<a href="city.html" style="text-decoration:none"><div style="background:#16a34a;color:#fff;padding:12px;text-align:center;border-radius:12px;margin:12px auto;max-width:900px;font-weight:900">🗺️ NEW: Open Freetown City - Earn $1 per Delivery →</div></a>
-
-<div class="install">📲 Install Agriverse like App: Tap browser menu → Add to Home Screen / Install App <button class="btn-light" style="background:#fff">Got it</button></div>
-
-<div class="card" id="addBag">
-<h3>🛍️ Yu Bag - Green Gold</h3>
-<label>NEW AgBagrit / OldGritInput - "Why" placeholder - e.g. Help Moyamba farmers sell online</label>
-<input id="why" placeholder="e.g. 1 Bag 1 Dollar">
-<label>Amount (oldGritLeones) - width:100% padding:8px border:1px solid dashed #16a34a background:#f0fdf4</label>
-<input id="amount" placeholder="e.g. 1 Bag 1 Dollar">
-<label>Choose CropOption - Option: (Cacao, Rice...)</label>
-<select id="crop"><option>Cassava 50kg</option><option>Rice 50kg</option><option>Corn 50kg</option><option>Cacao 30kg</option><option>Palm Oil 25L</option></select>
-<input id="qty" type="number" placeholder="Kg / Product Quantity e.g. 50">
-<input id="price" type="number" placeholder="Price - Leones e.g. 25">
-<input id="place" placeholder="Place / Village / District / Country">
-<input id="contactP" type="tel" placeholder="Contact / WhatsApp 076...">
-<textarea id="info" placeholder="Product Info e.g. Dry, Fresh, Organic..."></textarea>
-<button class="btn" onclick="saveBag()">💾 Save - Green Gold</button>
-<p id="msg" style="text-align:center;font-weight:800;color:#16a34a"></p>
-</div>
-
-<div class="card" id="bagList">
-<h3 style="margin:0">📦 Crop Bags - <span id="count">0</span> Bags Listings <small style="font-weight:400">Sierra Leone - Africa - World</small></h3>
-<div id="bags"></div>
-</div>
+<a class="new" href="https://velachecker77-wq.github.io/agriverse/city.html" target="_blank">✨ NEW: Open Freetown City V9 - 4K Metaverse LIVE → Earn $1 per Delivery</a>
 
 <div class="card">
-<h3>👨‍🌾 Farm Doctor - Ask Anything</h3>
-<div id="chat" style="display:flex;gap:8px;margin-top:6px"><input id="q" placeholder="Ask Na Farm Doctor. Ask How to store cassava? Price for today? I go answer in Krio..."><button class="btn-light" onclick="ask()">Ask</button></div>
-<div id="ans" style="margin-top:10px"></div>
+<div>📦 Yu Bag - Green Gold</div>
+<input class="in" placeholder="e.g. 1 Bag OldInput">
+<input class="in" placeholder="Amount (Old/Leones) - e.g. 3" style="border-style:dashed;background:#f6f6f4">
+<select class="in"><option>Choose Crop Option - Cacao, Rice...</option><option>Cassava 50kg</option><option>Rice 50kg</option><option>Cacao 25kg</option></select>
+<input class="in" placeholder="Kg / Product Quantity e.g. 50">
+<input class="in" placeholder="Price - Leones e.g. 25">
+<input class="in" placeholder="Place / Village / District / Country">
+<input class="in" placeholder="Contact / WhatsApp 076...">
+<textarea class="in" placeholder="Product Info e.g. Dry, Fresh, Organic..." rows="3"></textarea>
+<button class="save">💾 Save - Green Gold</button>
 </div>
 
-<div class="card" style="font-size:12px;text-align:center;opacity:.7" id="contact">
-AGRIVERSE OS v2.0 - Offline PWA - Works without internet - Languages: Krio / English / French - Built for Moyamba - Africa - World<br>
-💵 Wallet: $<span id="cash">12.50</span> | 🪙 Coins: <span id="coins">1240</span> | <a href="city.html">Open City</a>
-</div>
+<div class="card">🛍️ Crop Bags - 0 Bags Listings</div>
+<div class="card">👨‍🌾 Farm Doctor - Ask Anything <br><div style="display:flex;gap:6px;margin-top:8px"><input class="in" placeholder="Ask Na Farm Doctor..." style="margin:0"><button style="background:#16a34a;color:#fff;border:none;padding:0 18px;border-radius:12px">Ask</button></div></div>
 
-<script>
-let bagsList=JSON.parse(localStorage.getItem('avBags')||'[]');
-function saveBag(){
-let b={why:why.value,crop:crop.value,qty:qty.value,price:price.value,place:place.value,contact:contactP.value,info:info.value,time:Date.now()};
-bagsList.unshift(b);localStorage.setItem('avBags',JSON.stringify(bagsList));msg.innerText='Bag Saved! ✅';renderBags();
-}
-function renderBags(){
-count.innerText=bagsList.length;bags.innerHTML='';
-bagsList.forEach((b,i)=>{
-bags.innerHTML+=`<div class=bag><b>${b.crop}</b> - ${b.qty}kg - Le ${b.price}<br><small>${b.place} | ${b.info}</small><br><button class=btn-light onclick="delBag(${i})">Delete</button> <button class=btn-light onclick="shareBag(${i})">Share WA</button></div>`
-});
-}
-function delBag(i){bagsList.splice(i,1);localStorage.setItem('avBags',JSON.stringify(bagsList));renderBags()}
-function shareBag(i){let b=bagsList[i];let t=`Agriverse: ${b.crop} ${b.qty}kg Le${b.price} in ${b.place} Contact ${b.contact}`;window.open('https://wa.me/?text='+encodeURIComponent(t))}
-function exportCSV(){let csv='Crop,Qty,Price,Place\n'+bagsList.map(b=>`${b.crop},${b.qty},${b.price},${b.place}`).join('\n');let blob=new Blob([csv],{type:'text/csv'});let a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='agriverse.csv';a.click()}
-function shareWA(){window.open('https://wa.me/?text='+encodeURIComponent('Check Agriverse - Green Gold Pro https://velachecker77-wq.github.io/agriverse/'))}
-function ask(){ans.innerHTML='<b>Farm Doctor:</b> For '+q.value+' — Keep in dry place, check market at Congo Water. Price today ~ Le 25 per bag. Sell fast! 🌱'}
-function loadWallet(){coins.innerText=localStorage.getItem('avCoins')||'1240';cash.innerText=localStorage.getItem('avCash')||'12.50'}
-loadWallet();renderBags();
-</script>
+<div style="text-align:center;font-size:10px;color:#6b7280;margin:10px">AGRIVERSE OG v2.0 - Offline PWA - <a href="./city.html" style="color:#16a34a">Open 3D City V9</a></div>
 </body>
 </html>
